@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Zxing Library</string>
+    <!--zxing-->
+    <string name="msg_camera_framework_bug">Sorry, the Android camera encountered a problem. You may need to restart the device.</string>
+    <string name="button_ok">OK</string>
+    <string name="viewfinderview_status_text1">将二维码/条码放入取景框内</string>
+    <string name="viewfinderview_status_text2">即可自动扫描</string>
+
+
+</resources>
