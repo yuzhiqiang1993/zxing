@@ -2,13 +2,16 @@
 
 
 基于Google zxing的一个简化版的二维码扫描。
-之前在csdn上写了一篇集成的方法，比较麻烦，需要复制一些资源文件，然后还要修改源码等，很是麻烦。
+之前在csdn上写了一篇集成的方法，需要复制一些资源文件，然后还要修改源码等，很是麻烦。
 
 [csdn博客地址](http://blog.csdn.net/yuzhiqiang_1993/article/details/52805057)
 
 所以特地给封装了下，要想使用的话直接添加依赖就可以了。
 
 效果图如下：
+
+</br>
+
 ![图示](https://github.com/yuzhiqiang1993/zxing/blob/master/20161021114316025.gif "gif")  
 
 # 使用步骤
