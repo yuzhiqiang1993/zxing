@@ -2,12 +2,9 @@ package com.yzq.zxing;
 
 import android.Manifest;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.net.Uri;
-import android.provider.Settings;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -15,6 +12,7 @@ import android.widget.Toast;
 
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.PermissionListener;
+import com.yzq.zxinglibrary.Consants;
 import com.yzq.zxinglibrary.android.CaptureActivity;
 
 import java.util.List;
@@ -24,11 +22,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button btn;
     private TextView resultTv;
 
+
+    /*自己随便定义请求码*/
     private final int REQUEST_CODE_SCAN = 555;
-
-    /*zxing扫描返回*/
-    public final String DECODED_CONTENT_KEY = "codedContent";
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +41,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
 
         /*先申请相机权限*/
-
         AndPermission.with(this)
                 .permission(Manifest.permission.CAMERA)
                 .callback(new PermissionListener() {
@@ -70,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 扫描二维码/条码回传
         if (requestCode == REQUEST_CODE_SCAN && resultCode == RESULT_OK) {
             if (data != null) {
-                String content = data.getStringExtra(DECODED_CONTENT_KEY);
+                String content = data.getStringExtra(Consants.CODED_CONTENT);
                 resultTv.setText("扫描结果为：" + content);
             }
         }

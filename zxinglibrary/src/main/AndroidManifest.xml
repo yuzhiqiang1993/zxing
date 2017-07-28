@@ -8,12 +8,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true">
         <!-- zxing扫描界面 -->
-        <activity
-            android:name=".android.CaptureActivity"
-            android:configChanges="orientation|screenSize"
-            android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar"
-            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity android:name=".android.CaptureActivity" />
     </application>
 
 </manifest>

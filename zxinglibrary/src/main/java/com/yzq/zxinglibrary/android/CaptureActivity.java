@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.DecodeHintType;
 import com.google.zxing.Result;
+import com.yzq.zxinglibrary.Consants;
 import com.yzq.zxinglibrary.R;
 import com.yzq.zxinglibrary.camera.CameraManager;
 import com.yzq.zxinglibrary.view.ViewfinderView;
@@ -187,8 +188,8 @@ public final class CaptureActivity extends Activity implements
             Toast.makeText(this, "扫描成功", Toast.LENGTH_SHORT).show();
 
             Intent intent = getIntent();
-            intent.putExtra("codedContent", rawResult.getText());
-            intent.putExtra("codedBitmap", barcode);
+            intent.putExtra(Consants.CODED_CONTENT, rawResult.getText());
+            intent.putExtra(Consants.CODED_BITMAP, barcode);
             setResult(RESULT_OK, intent);
             finish();
         }

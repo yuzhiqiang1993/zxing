@@ -218,11 +218,6 @@ public final class CameraManager {
             int height = findDesiredDimensionInRange(screenResolution.y,
                     MIN_FRAME_HEIGHT, MAX_FRAME_HEIGHT);
 
-//			int width = findDesiredDimensionInRange(screenResolution.x,
-//					MIN_FRAME_WIDTH, MAX_FRAME_WIDTH)*4/5;
-//			int height = findDesiredDimensionInRange(screenResolution.y,
-//					MIN_FRAME_HEIGHT, MAX_FRAME_HEIGHT)*4/5;
-
             int leftOffset = (screenResolution.x - width) / 2;
             int topOffset = (screenResolution.y - height) / 2;
             framingRect = new Rect(leftOffset, topOffset, leftOffset + width,
