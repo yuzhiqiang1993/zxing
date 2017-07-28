@@ -34,7 +34,7 @@
 
 2.在你的app  moudle下添加依赖
 ```
-  compile 'com.github.yuzhiqiang1993:zxing:1.0'
+  compile 'com.github.yuzhiqiang1993:zxing:1.1'
 ```
 
 3.在AndroidManifest.xml中声明相机权限
@@ -68,7 +68,7 @@ Intent intent = new Intent(MainActivity.this,
 ```
 
 
-5.接收扫描结果
+5.接收扫描结果，注意，这里的 Consants 是 com.yzq.zxinglibrary.Consants; 包下的，不要引错了。
 
 ```
     @Override
@@ -78,7 +78,7 @@ Intent intent = new Intent(MainActivity.this,
         // 扫描二维码/条码回传
         if (requestCode == REQUEST_CODE_SCAN && resultCode == RESULT_OK) {
             if (data != null) {
-                String content = data.getStringExtra(DECODED_CONTENT_KEY);
+                String content = data.getStringExtra(Consants.CODED_CONTENT);
                 resultTv.setText("扫描结果为：" + content);
             }
         }
