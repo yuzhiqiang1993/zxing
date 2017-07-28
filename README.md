@@ -68,7 +68,7 @@ Intent intent = new Intent(MainActivity.this,
 ```
 
 
-5.接收扫描结果，注意，这里的 Consants 是 com.yzq.zxinglibrary.Consants; 包下的，不要引错了。
+5.接收扫描结果，注意，这里的 Consants 是 com.yzq.zxinglibrary; 包下的，不要引错了。
 
 ```
     @Override
