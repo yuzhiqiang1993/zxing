@@ -26,7 +26,9 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.drawable.BitmapDrawable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 import com.google.zxing.ResultPoint;
@@ -131,6 +133,9 @@ public final class ViewfinderView extends View {
             drawFrameBounds(canvas, frame);
             drawStatusText(canvas, frame, width);
 
+            /*2017-07-31 新增闪光灯  绘制太频繁  性能不好*/
+          //  drawFlashlight(canvas,frame,width);
+
             // 绘制扫描线
             // paint.setColor(laserColor);
             // paint.setAlpha(SCANNER_ALPHA[scannerAlpha]);
@@ -187,6 +192,8 @@ public final class ViewfinderView extends View {
         }
     }
 
+
+
     /**
      * 绘制取景框边框
      *
@@ -238,6 +245,8 @@ public final class ViewfinderView extends View {
      */
     private void drawStatusText(Canvas canvas, Rect frame, int width) {
 
+        Log.i("绘制提示文字","width:"+width);
+
         String statusText1 = getResources().getString(
                 R.string.viewfinderview_status_text1);
         String statusText2 = getResources().getString(
@@ -255,6 +264,27 @@ public final class ViewfinderView extends View {
         int textWidth2 = (int) paint.measureText(statusText2);
         canvas.drawText(statusText2, (width - textWidth2) / 2, frame.top
                 - statusPaddingTop + 60, paint);
+    }
+
+    /*绘制闪光灯*/
+    private void drawFlashlight(Canvas canvas, Rect frame, int width) {
+
+        Log.i("绘制闪光灯  frame bottom",""+frame.bottom);
+        Log.i("绘制闪光灯  frame left",""+frame.left);
+
+
+        int left = frame.left+20;
+        int top=frame.bottom+20;
+
+        paint.setColor(statusColor);
+        BitmapDrawable flashlightDrawable = (BitmapDrawable) getResources().getDrawable(R.drawable.flashlight);
+
+       canvas.drawBitmap(flashlightDrawable.getBitmap(),left,top,paint);
+
+
+
+
+
     }
 
     /**

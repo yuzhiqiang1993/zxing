@@ -4,7 +4,9 @@ package com.yzq.zxinglibrary.android;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -14,6 +16,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.zxing.BarcodeFormat;
@@ -52,6 +55,10 @@ public final class CaptureActivity extends Activity implements
     private BeepManager beepManager;
 
     private ImageButton imageButton_back;
+    /*闪光灯*/
+    private ImageView flashLightIv;
+    /*闪光灯状态 默认为0  0：关闭  1：打开*/
+    private boolean openFlashLight = false;
 
     public ViewfinderView getViewfinderView() {
         return viewfinderView;
@@ -86,13 +93,55 @@ public final class CaptureActivity extends Activity implements
         beepManager = new BeepManager(this);
 
         imageButton_back = (ImageButton) findViewById(R.id.capture_imageview_back);
-        imageButton_back.setOnClickListener(new View.OnClickListener() {
-
+        flashLightIv = (ImageView) findViewById(R.id.flashLightIv);
+        flashLightIv.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
+                Drawable.ConstantState currentDrawable = flashLightIv.getDrawable().getCurrent().getConstantState();
+
+                if (currentDrawable.equals(getResources().getDrawable(R.drawable.open).getConstantState())) {
+                    /*打开闪光灯*/
+                    openFlashLight = true;
+                    switchFlashLight(openFlashLight);
+                } else {
+                    /*关闭闪光灯*/
+                    openFlashLight = false;
+                    switchFlashLight(openFlashLight);
+                }
+
+            }
+
+
+        });
+        imageButton_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
                 finish();
             }
         });
+    }
+
+
+    /*切换闪光灯*/
+    private void switchFlashLight(boolean flashLightState) {
+        if(!getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH))
+        {
+            Toast.makeText(this, "你的手机没有闪光灯!", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        if (flashLightState){
+
+            if (cameraManager.isOpen()){
+                cameraManager.openFlashLight();
+                flashLightIv.setImageResource(R.drawable.close);
+            }
+
+        }else {
+            flashLightIv.setImageResource(R.drawable.open);
+            cameraManager.closeFlashLight();
+        }
+
     }
 
     @Override
@@ -236,5 +285,6 @@ public final class CaptureActivity extends Activity implements
         builder.setOnCancelListener(new FinishListener(this));
         builder.show();
     }
+
 
 }

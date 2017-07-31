@@ -39,7 +39,7 @@ public final class CameraManager {
 
     private static final String TAG = CameraManager.class.getSimpleName();
 
-    private static final int MIN_FRAME_WIDTH= 240;//取景框的最小宽度
+    private static final int MIN_FRAME_WIDTH = 240;//取景框的最小宽度
     private static final int MIN_FRAME_HEIGHT = 240;//取景框的最小高度
     private static final int MAX_FRAME_WIDTH = 675; //  取景框的最大宽度
     private static final int MAX_FRAME_HEIGHT = 675; // 取景框的最大高度
@@ -149,6 +149,26 @@ public final class CameraManager {
             framingRect = null;
             framingRectInPreview = null;
         }
+    }
+
+    /*打开闪光灯*/
+
+    public void openFlashLight() {
+        Log.i("打开闪光灯","openFlashLight");
+
+        Camera.Parameters parameters = camera.getParameters();
+        parameters.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
+        camera.setParameters(parameters);
+
+    }
+
+    /*关闭闪光灯*/
+    public void closeFlashLight() {
+        Log.i("关闭闪光灯","closeFlashLight");
+        Camera.Parameters parameters = camera.getParameters();
+        parameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
+        camera.setParameters(parameters);
+
     }
 
     /**
