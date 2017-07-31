@@ -57,7 +57,7 @@ public final class CaptureActivity extends Activity implements
     private ImageButton imageButton_back;
     /*闪光灯*/
     private ImageView flashLightIv;
-    /*闪光灯状态 默认为0  0：关闭  1：打开*/
+    /*闪光灯状态 默认为false*/
     private boolean openFlashLight = false;
 
     public ViewfinderView getViewfinderView() {
