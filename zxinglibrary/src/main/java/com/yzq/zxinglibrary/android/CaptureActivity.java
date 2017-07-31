@@ -94,6 +94,15 @@ public final class CaptureActivity extends Activity implements
 
         imageButton_back = (ImageButton) findViewById(R.id.capture_imageview_back);
         flashLightIv = (ImageView) findViewById(R.id.flashLightIv);
+
+        if(!getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH))
+        {
+            flashLightIv.setVisibility(View.GONE);
+          //  Toast.makeText(this, "你的手机没有闪光灯!", Toast.LENGTH_LONG).show();
+          //  return;
+        }
+
+
         flashLightIv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -124,11 +133,6 @@ public final class CaptureActivity extends Activity implements
 
     /*切换闪光灯*/
     private void switchFlashLight(boolean flashLightState) {
-        if(!getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH))
-        {
-            Toast.makeText(this, "你的手机没有闪光灯!", Toast.LENGTH_LONG).show();
-            return;
-        }
 
         if (flashLightState){
 
