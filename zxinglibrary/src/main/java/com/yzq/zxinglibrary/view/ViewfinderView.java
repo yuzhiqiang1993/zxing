@@ -28,7 +28,6 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 
 import com.google.zxing.ResultPoint;
@@ -112,7 +111,6 @@ public final class ViewfinderView extends View {
         int height = canvas.getHeight();
 
 
-
         // Draw the exterior (i.e. outside the framing rect) darkened
         // 绘制取景框外的暗灰色的表面，分四个矩形绘制
         paint.setColor(resultBitmap != null ? resultColor : maskColor);
@@ -134,7 +132,7 @@ public final class ViewfinderView extends View {
             drawStatusText(canvas, frame, width);
 
             /*2017-07-31 新增闪光灯  绘制太频繁  性能不好*/
-          //  drawFlashlight(canvas,frame,width);
+            //  drawFlashlight(canvas,frame,width);
 
             // 绘制扫描线
             // paint.setColor(laserColor);
@@ -193,7 +191,6 @@ public final class ViewfinderView extends View {
     }
 
 
-
     /**
      * 绘制取景框边框
      *
@@ -245,7 +242,7 @@ public final class ViewfinderView extends View {
      */
     private void drawStatusText(Canvas canvas, Rect frame, int width) {
 
-        Log.i("绘制提示文字","width:"+width);
+       // Log.i("绘制提示文字", "width:" + width);
 
         String statusText1 = getResources().getString(
                 R.string.viewfinderview_status_text1);
@@ -269,20 +266,17 @@ public final class ViewfinderView extends View {
     /*绘制闪光灯*/
     private void drawFlashlight(Canvas canvas, Rect frame, int width) {
 
-        Log.i("绘制闪光灯  frame bottom",""+frame.bottom);
-        Log.i("绘制闪光灯  frame left",""+frame.left);
+//        Log.i("绘制闪光灯  frame bottom", "" + frame.bottom);
+//        Log.i("绘制闪光灯  frame left", "" + frame.left);
 
 
-        int left = frame.left+20;
-        int top=frame.bottom+20;
+        int left = frame.left + 20;
+        int top = frame.bottom + 20;
 
         paint.setColor(statusColor);
         BitmapDrawable flashlightDrawable = (BitmapDrawable) getResources().getDrawable(R.drawable.flashlight);
 
-       canvas.drawBitmap(flashlightDrawable.getBitmap(),left,top,paint);
-
-
-
+        canvas.drawBitmap(flashlightDrawable.getBitmap(), left, top, paint);
 
 
     }
