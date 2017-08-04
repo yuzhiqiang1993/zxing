@@ -39,10 +39,10 @@ public final class CameraManager {
 
     private static final String TAG = CameraManager.class.getSimpleName();
 
-    private static final int MIN_FRAME_WIDTH = 240;//取景框的最小宽度
-    private static final int MIN_FRAME_HEIGHT = 240;//取景框的最小高度
-    private static final int MAX_FRAME_WIDTH = 675; //  取景框的最大宽度
-    private static final int MAX_FRAME_HEIGHT = 675; // 取景框的最大高度
+    private static int MIN_FRAME_WIDTH = 240;//取景框的最小宽度
+    private static int MIN_FRAME_HEIGHT = 240;//取景框的最小高度
+    private static int MAX_FRAME_WIDTH = 600; //  取景框的最大宽度
+    private static int MAX_FRAME_HEIGHT = 600; // 取景框的最大高度
 
     private final Context context;
     private final CameraConfigurationManager configManager;
@@ -154,7 +154,7 @@ public final class CameraManager {
     /*打开闪光灯*/
 
     public void openFlashLight() {
-        Log.i("打开闪光灯","openFlashLight");
+        Log.i("打开闪光灯", "openFlashLight");
 
         Camera.Parameters parameters = camera.getParameters();
         parameters.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
@@ -164,7 +164,7 @@ public final class CameraManager {
 
     /*关闭闪光灯*/
     public void closeFlashLight() {
-        Log.i("关闭闪光灯","closeFlashLight");
+        Log.i("关闭闪光灯", "closeFlashLight");
         Camera.Parameters parameters = camera.getParameters();
         parameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
         camera.setParameters(parameters);
@@ -233,13 +233,50 @@ public final class CameraManager {
                 return null;
             }
 
+            int screenResolutionX = screenResolution.x;
+            int screenResolutiony = screenResolution.y;
+//            Log.i("screenResolutionX:", screenResolutionX + "");
+//            Log.i("screenResolutiony:", screenResolutiony + "");
+
+
+            if (screenResolutionX >= 480 && screenResolutionX <= 600) {
+                MAX_FRAME_WIDTH = 300;
+            } else if (screenResolutionX > 600 && screenResolutionX <= 720) {
+                MAX_FRAME_WIDTH = 380;
+            } else {
+                MAX_FRAME_WIDTH = 600;
+            }
+
+            if (screenResolutiony >= 800 && screenResolutiony <= 960) {
+                MAX_FRAME_HEIGHT = 300;
+            } else if (screenResolutiony > 960 && screenResolutiony <= 1280) {
+                MAX_FRAME_HEIGHT = 380;
+            } else {
+                MAX_FRAME_HEIGHT = 600;
+            }
+
+
             int width = findDesiredDimensionInRange(screenResolution.x,
                     MIN_FRAME_WIDTH, MAX_FRAME_WIDTH);
             int height = findDesiredDimensionInRange(screenResolution.y,
                     MIN_FRAME_HEIGHT, MAX_FRAME_HEIGHT);
 
+
+//            Log.i("width:", width + "");
+//            Log.i("height:", height + "");
+
+            if (width < height) {
+               height=width;
+            } else {
+                width = height;
+            }
+
+            Log.i("width:",width+"");
             int leftOffset = (screenResolution.x - width) / 2;
             int topOffset = (screenResolution.y - height) / 2;
+//            Log.i("leftOffset:", leftOffset + "");
+//            Log.i("topOffset:", topOffset + "");
+
             framingRect = new Rect(leftOffset, topOffset, leftOffset + width,
                     topOffset + height);
             Log.d(TAG, "Calculated framing rect: " + framingRect);
@@ -250,6 +287,9 @@ public final class CameraManager {
     private static int findDesiredDimensionInRange(int resolution, int hardMin,
                                                    int hardMax) {
         int dim = 5 * resolution / 8; // Target 5/8 of each dimension
+//        Log.i("dim", dim + "");
+//        Log.i("hardMin", hardMin + "");
+//        Log.i("hardMax", hardMax + "");
         if (dim < hardMin) {
             return hardMin;
         }

@@ -28,6 +28,7 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 import com.google.zxing.ResultPoint;
@@ -109,6 +110,10 @@ public final class ViewfinderView extends View {
         }
         int width = canvas.getWidth();
         int height = canvas.getHeight();
+
+//
+//        Log.i("canvas.getWidth()", width + "");
+//        Log.i("canvas.getHeight()", height + "");
 
 
         // Draw the exterior (i.e. outside the framing rect) darkened
@@ -208,8 +213,28 @@ public final class ViewfinderView extends View {
         paint.setColor(Color.BLUE);
         paint.setStyle(Paint.Style.FILL);
 
-        int corWidth = 15;
-        int corLength = 45;
+
+
+
+        /*低分辨率处理*/
+        int width = frame.width();
+       // Log.i("width",width+"");
+
+        int corLength;
+        int corWidth;
+        if (width==300){
+          corWidth = 5;
+          corLength = 20;
+      }else if (width==380){
+          corWidth = 13;
+          corLength = 35;
+      }else {
+           corWidth = 15;
+           corLength = 45;
+
+      }
+
+
 
         // 左上角
         canvas.drawRect(frame.left - corWidth, frame.top, frame.left, frame.top
@@ -242,13 +267,25 @@ public final class ViewfinderView extends View {
      */
     private void drawStatusText(Canvas canvas, Rect frame, int width) {
 
-       // Log.i("绘制提示文字", "width:" + width);
+        // Log.i("绘制提示文字", "width:" + width);
 
         String statusText1 = getResources().getString(
                 R.string.viewfinderview_status_text1);
         String statusText2 = getResources().getString(
                 R.string.viewfinderview_status_text2);
-        int statusTextSize = 45;
+
+        int statusTextSize;
+
+         /*低分辨率处理*/
+
+        if (width>=480&&width<=600){
+            statusTextSize = 22;
+        }else if (width>600&&width<=720){
+            statusTextSize = 26;
+        }else {
+            statusTextSize=45;
+        }
+
         int statusPaddingTop = 180;
 
         paint.setColor(statusColor);
