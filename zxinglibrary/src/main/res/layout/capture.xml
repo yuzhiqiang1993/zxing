@@ -41,6 +41,7 @@
             android:layout_height="42dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
+            android:visibility="gone"
             android:layout_alignTop="@+id/capture_imageview_back"
             android:src="@drawable/open" />
 

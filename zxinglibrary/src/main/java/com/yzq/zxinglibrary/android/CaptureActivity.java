@@ -24,6 +24,7 @@ import com.google.zxing.DecodeHintType;
 import com.google.zxing.Result;
 import com.yzq.zxinglibrary.Consants;
 import com.yzq.zxinglibrary.R;
+
 import com.yzq.zxinglibrary.camera.CameraManager;
 import com.yzq.zxinglibrary.view.ViewfinderView;
 
@@ -91,6 +92,7 @@ public final class CaptureActivity extends Activity implements
 
         inactivityTimer = new InactivityTimer(this);
         beepManager = new BeepManager(this);
+
 
         imageButton_back = (ImageButton) findViewById(R.id.capture_imageview_back);
         flashLightIv = (ImageView) findViewById(R.id.flashLightIv);
