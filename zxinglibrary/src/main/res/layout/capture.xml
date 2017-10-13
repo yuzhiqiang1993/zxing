@@ -10,21 +10,22 @@
     <!-- 扫描取景框 -->
     <com.yzq.zxinglibrary.view.ViewfinderView
         android:id="@+id/viewfinder_view"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent" />
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
     <RelativeLayout
-        android:layout_width="fill_parent"
-        android:layout_height="50dp"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
         android:layout_gravity="top"
         android:background="#99000000">
 
         <ImageButton
             android:id="@+id/capture_imageview_back"
-            android:layout_width="42dp"
-            android:layout_height="42dp"
+            android:layout_width="48dp"
+            android:layout_height="match_parent"
             android:layout_centerVertical="true"
-            android:background="@drawable/selector_capture_back" />
+            android:background="@drawable/selector_capture_back"
+            android:scaleType="centerInside" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -35,15 +36,16 @@
             android:textSize="20sp" />
 
         <ImageView
-            android:scaleType="fitCenter"
             android:id="@+id/flashLightIv"
-            android:layout_width="42dp"
-            android:layout_height="42dp"
+            android:layout_width="28dp"
+            android:layout_height="match_parent"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:visibility="gone"
-            android:layout_alignTop="@+id/capture_imageview_back"
-            android:src="@drawable/open" />
+            android:layout_centerVertical="true"
+            android:scaleType="centerInside"
+            android:src="@drawable/close"
+            android:tint="#ffffffff"
+            android:visibility="gone" />
 
 
     </RelativeLayout>

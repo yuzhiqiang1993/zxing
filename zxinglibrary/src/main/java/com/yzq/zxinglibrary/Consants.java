@@ -14,6 +14,8 @@ public class Consants {
     public static final int QUIT = 5;
     public static final int RESTART_PREVIEW = 6;
     public static final int RETURN_SCAN_RESULT = 7;
+    public static final int FLASH_OPEN = 8;
+    public static final int FLASH_CLOSE = 9;
     public static final String CODED_CONTENT = "codedContent";
     public static final String CODED_BITMAP = "codedBitmap";
 

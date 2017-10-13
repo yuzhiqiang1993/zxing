@@ -21,10 +21,13 @@ import android.graphics.Point;
 import android.graphics.Rect;
 import android.hardware.Camera;
 import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.SurfaceHolder;
 
 import com.google.zxing.PlanarYUVLuminanceSource;
+import com.yzq.zxinglibrary.Consants;
+import com.yzq.zxinglibrary.android.CaptureActivityHandler;
 
 import java.io.IOException;
 
@@ -151,25 +154,33 @@ public final class CameraManager {
         }
     }
 
-    /*打开闪光灯*/
 
-    public void openFlashLight() {
-        Log.i("打开闪光灯", "openFlashLight");
+    /*切换闪光灯*/
+    public void switchFlashLight(CaptureActivityHandler handler) {
+        //  Log.i("打开闪光灯", "openFlashLight");
 
         Camera.Parameters parameters = camera.getParameters();
-        parameters.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
-        camera.setParameters(parameters);
 
+        Message msg = new Message();
+
+        String flashMode = parameters.getFlashMode();
+
+        if (flashMode.equals(Camera.Parameters.FLASH_MODE_TORCH)) {
+            /*关闭闪光灯*/
+            parameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
+
+            msg.what = Consants.FLASH_CLOSE;
+
+
+        } else {
+            /*打开闪光灯*/
+            parameters.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
+            msg.what = Consants.FLASH_OPEN;
+        }
+        camera.setParameters(parameters);
+        handler.sendMessage(msg);
     }
 
-    /*关闭闪光灯*/
-    public void closeFlashLight() {
-        Log.i("关闭闪光灯", "closeFlashLight");
-        Camera.Parameters parameters = camera.getParameters();
-        parameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
-        camera.setParameters(parameters);
-
-    }
 
     /**
      * Asks the camera hardware to begin drawing preview frames to the screen.
@@ -266,12 +277,12 @@ public final class CameraManager {
 //            Log.i("height:", height + "");
 
             if (width < height) {
-               height=width;
+                height = width;
             } else {
                 width = height;
             }
 
-            Log.i("width:",width+"");
+            Log.i("width:", width + "");
             int leftOffset = (screenResolution.x - width) / 2;
             int topOffset = (screenResolution.y - height) / 2;
 //            Log.i("leftOffset:", leftOffset + "");

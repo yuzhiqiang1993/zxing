@@ -151,6 +151,13 @@ public final class CaptureActivityHandler extends Handler {
                     Log.w(TAG, "Can't find anything to handle VIEW of URI " + url);
                 }
                 break;
+
+            case Consants.FLASH_OPEN:
+                activity.switchFlashImg(Consants.FLASH_OPEN);
+                break;
+            case Consants.FLASH_CLOSE:
+                activity.switchFlashImg(Consants.FLASH_CLOSE);
+                break;
         }
     }
 

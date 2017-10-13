@@ -38,13 +38,6 @@ import com.yzq.zxinglibrary.camera.CameraManager;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * This view is overlaid on top of the camera preview. It adds the viewfinder
- * rectangle and partial transparency outside it, as well as the laser scanner
- * animation and result points. 这是一个位于相机顶部的预览view,它增加了一个外部部分透明的取景框，以及激光扫描动画和结果组件
- *
- * @author dswitkin@google.com (Daniel Switkin)
- */
 public final class ViewfinderView extends View {
 
     private static final int[] SCANNER_ALPHA = {0, 64, 128, 192, 255, 192,
@@ -68,9 +61,12 @@ public final class ViewfinderView extends View {
     // 扫描线移动的y
     private int scanLineTop;
     // 扫描线移动速度
-    private final int SCAN_VELOCITY = 10;
+    private final int SCAN_VELOCITY = 15;
+    //扫描线高度
+    private int scanLightHeight = 20;
     // 扫描线
     Bitmap scanLight;
+
 
     public ViewfinderView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -136,16 +132,6 @@ public final class ViewfinderView extends View {
             drawFrameBounds(canvas, frame);
             drawStatusText(canvas, frame, width);
 
-            /*2017-07-31 新增闪光灯  绘制太频繁  性能不好*/
-            //  drawFlashlight(canvas,frame,width);
-
-            // 绘制扫描线
-            // paint.setColor(laserColor);
-            // paint.setAlpha(SCANNER_ALPHA[scannerAlpha]);
-            // scannerAlpha = (scannerAlpha + 1) % SCANNER_ALPHA.length;
-            // int middle = frame.height() / 2 + frame.top;
-            // canvas.drawRect(frame.left + 2, middle - 1, frame.right - 1,
-            // middle + 2, paint);
 
             drawScanLight(canvas, frame);
 
@@ -214,26 +200,22 @@ public final class ViewfinderView extends View {
         paint.setStyle(Paint.Style.FILL);
 
 
-
-
         /*低分辨率处理*/
         int width = frame.width();
-       // Log.i("width",width+"");
+        // Log.i("width",width+"");
 
         int corLength;
         int corWidth;
-        if (width==300){
-          corWidth = 5;
-          corLength = 20;
-      }else if (width==380){
-          corWidth = 13;
-          corLength = 35;
-      }else {
-           corWidth = 15;
-           corLength = 45;
-
-      }
-
+        if (width == 300) {
+            corWidth = 5;
+            corLength = 20;
+        } else if (width == 380) {
+            corWidth = 13;
+            corLength = 35;
+        } else {
+            corWidth = 15;
+            corLength = 45;
+        }
 
 
         // 左上角
@@ -278,12 +260,12 @@ public final class ViewfinderView extends View {
 
          /*低分辨率处理*/
 
-        if (width>=480&&width<=600){
+        if (width >= 480 && width <= 600) {
             statusTextSize = 22;
-        }else if (width>600&&width<=720){
+        } else if (width > 600 && width <= 720) {
             statusTextSize = 26;
-        }else {
-            statusTextSize=45;
+        } else {
+            statusTextSize = 45;
         }
 
         int statusPaddingTop = 180;
@@ -300,23 +282,6 @@ public final class ViewfinderView extends View {
                 - statusPaddingTop + 60, paint);
     }
 
-    /*绘制闪光灯*/
-    private void drawFlashlight(Canvas canvas, Rect frame, int width) {
-
-//        Log.i("绘制闪光灯  frame bottom", "" + frame.bottom);
-//        Log.i("绘制闪光灯  frame left", "" + frame.left);
-
-
-        int left = frame.left + 20;
-        int top = frame.bottom + 20;
-
-        paint.setColor(statusColor);
-        BitmapDrawable flashlightDrawable = (BitmapDrawable) getResources().getDrawable(R.drawable.flashlight);
-
-        canvas.drawBitmap(flashlightDrawable.getBitmap(), left, top, paint);
-
-
-    }
 
     /**
      * 绘制移动扫描线
@@ -326,17 +291,14 @@ public final class ViewfinderView extends View {
      */
     private void drawScanLight(Canvas canvas, Rect frame) {
 
-        if (scanLineTop == 0) {
-            scanLineTop = frame.top;
-        }
-
-        if (scanLineTop >= frame.bottom) {
+        if (scanLineTop == 0 || scanLineTop + SCAN_VELOCITY >= frame.bottom) {
             scanLineTop = frame.top;
         } else {
+
             scanLineTop += SCAN_VELOCITY;
         }
         Rect scanRect = new Rect(frame.left, scanLineTop, frame.right,
-                scanLineTop + 30);
+                scanLineTop + scanLightHeight);
         canvas.drawBitmap(scanLight, null, scanRect, paint);
     }
 

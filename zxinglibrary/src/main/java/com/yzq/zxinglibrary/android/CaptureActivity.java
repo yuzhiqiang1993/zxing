@@ -4,11 +4,15 @@ package com.yzq.zxinglibrary.android;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.pm.FeatureInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.hardware.Camera;
+import android.hardware.camera2.CameraDevice;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -40,6 +44,7 @@ public final class CaptureActivity extends Activity implements
         SurfaceHolder.Callback {
 
     private static final String TAG = CaptureActivity.class.getSimpleName();
+
 
     // 相机控制
     private CameraManager cameraManager;
@@ -97,33 +102,26 @@ public final class CaptureActivity extends Activity implements
         imageButton_back = (ImageButton) findViewById(R.id.capture_imageview_back);
         flashLightIv = (ImageView) findViewById(R.id.flashLightIv);
 
-        if (!getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH)) {
-           Log.i("设备不支持闪光灯","");
+
+        /*有闪光灯就显示按钮  否则隐藏（个别机器上不识别）*/
+        if (isSupportCameraLedFlash(getPackageManager())) {
+            flashLightIv.setVisibility(View.VISIBLE);
+            flashLightIv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    cameraManager.switchFlashLight(handler);
+
+                }
+
+
+            });
+        } else {
+            Log.i("设备不支持闪光灯", "");
             flashLightIv.setVisibility(View.GONE);
-            //  Toast.makeText(this, "你的手机没有闪光灯!", Toast.LENGTH_LONG).show();
-            //  return;
         }
 
 
-        flashLightIv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Drawable.ConstantState currentDrawable = flashLightIv.getDrawable().getCurrent().getConstantState();
-
-                if (currentDrawable.equals(getResources().getDrawable(R.drawable.open).getConstantState())) {
-                    /*打开闪光灯*/
-                    openFlashLight = true;
-                    switchFlashLight(openFlashLight);
-                } else {
-                    /*关闭闪光灯*/
-                    openFlashLight = false;
-                    switchFlashLight(openFlashLight);
-                }
-
-            }
-
-
-        });
         imageButton_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -132,22 +130,18 @@ public final class CaptureActivity extends Activity implements
         });
     }
 
-
-    /*切换闪光灯*/
-    private void switchFlashLight(boolean flashLightState) {
-
-        if (flashLightState) {
-
-            if (cameraManager.isOpen()) {
-                cameraManager.openFlashLight();
-                flashLightIv.setImageResource(R.drawable.close);
+    /*判断设备是否支持闪光灯*/
+    public static boolean isSupportCameraLedFlash(PackageManager pm) {
+        if (pm != null) {
+            FeatureInfo[] features = pm.getSystemAvailableFeatures();
+            if (features != null) {
+                for (FeatureInfo f : features) {
+                    if (f != null && PackageManager.FEATURE_CAMERA_FLASH.equals(f.name))
+                        return true;
+                }
             }
-
-        } else {
-            flashLightIv.setImageResource(R.drawable.open);
-            cameraManager.closeFlashLight();
         }
-
+        return false;
     }
 
     @Override
@@ -224,6 +218,19 @@ public final class CaptureActivity extends Activity implements
 
     }
 
+    /*切换手电筒图片*/
+
+    public void switchFlashImg(int flashState) {
+
+        if (flashState == Consants.FLASH_OPEN) {
+            flashLightIv.setImageResource(R.drawable.open);
+        } else {
+            flashLightIv.setImageResource(R.drawable.close);
+        }
+
+    }
+
+
     /**
      * 扫描成功，处理反馈信息
      *
@@ -239,7 +246,7 @@ public final class CaptureActivity extends Activity implements
         if (fromLiveScan) {
             beepManager.playBeepSoundAndVibrate();
 
-            Toast.makeText(this, "扫描成功", Toast.LENGTH_SHORT).show();
+            // Toast.makeText(this, "扫描成功", Toast.LENGTH_SHORT).show();
 
             Intent intent = getIntent();
             intent.putExtra(Consants.CODED_CONTENT, rawResult.getText());
