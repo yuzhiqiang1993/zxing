@@ -34,7 +34,7 @@
 
 2.在你的app  moudle下添加依赖
 ```
-  compile 'com.github.yuzhiqiang1993:zxing:1.5'
+  compile 'com.github.yuzhiqiang1993:zxing:1.6'
 ```
 
 3.在AndroidManifest.xml中声明相机权限
