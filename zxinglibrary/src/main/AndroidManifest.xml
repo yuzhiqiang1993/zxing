@@ -3,6 +3,11 @@
     package="com.yzq.zxinglibrary">
 
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.FLASHLIGHT" />
+
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
 
     <application android:label="@string/app_name">
         <!-- zxing扫描界面 -->
