@@ -2,16 +2,16 @@
 
     package="com.yzq.zxinglibrary">
 
-    <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.FLASHLIGHT" />
-
-    <uses-feature android:name="android.hardware.camera" />
-    <uses-feature android:name="android.hardware.camera.autofocus" />
 
     <application android:label="@string/app_name">
         <!-- zxing扫描界面 -->
-        <activity android:name=".android.CaptureActivity" />
+        <activity
+            android:name=".android.CaptureActivity"
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|stateHidden">
+
+        </activity>
     </application>
 
 </manifest>
