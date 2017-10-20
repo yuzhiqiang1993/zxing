@@ -1,73 +1,60 @@
 package com.yzq.zxinglibrary.android;
 
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.pm.FeatureInfo;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
-import android.hardware.Camera;
-import android.hardware.camera2.CameraDevice;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
+import android.support.v7.app.AppCompatDelegate;
+import android.support.v7.widget.AppCompatImageView;
+import android.support.v7.widget.LinearLayoutCompat;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.ImageButton;
-import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.zxing.BarcodeFormat;
-import com.google.zxing.DecodeHintType;
 import com.google.zxing.Result;
-import com.yzq.zxinglibrary.Consants;
 import com.yzq.zxinglibrary.R;
-
+import com.yzq.zxinglibrary.bean.ZxingConfig;
 import com.yzq.zxinglibrary.camera.CameraManager;
+import com.yzq.zxinglibrary.common.Constant;
+import com.yzq.zxinglibrary.decode.DecodeImgCallback;
+import com.yzq.zxinglibrary.decode.DecodeImgThread;
+import com.yzq.zxinglibrary.decode.ImageUtil;
 import com.yzq.zxinglibrary.view.ViewfinderView;
 
 import java.io.IOException;
-import java.util.Collection;
-import java.util.Map;
 
-/**
- * 这个activity打开相机，在后台线程做常规的扫描；它绘制了一个结果view来帮助正确地显示条形码，在扫描的时候显示反馈信息，
- * 然后在扫描成功的时候覆盖扫描结果
- */
-public final class CaptureActivity extends Activity implements
-        SurfaceHolder.Callback {
+
+public class CaptureActivity extends Activity implements SurfaceHolder.Callback, View.OnClickListener {
 
     private static final String TAG = CaptureActivity.class.getSimpleName();
-
-
-    // 相机控制
+    private ZxingConfig config;
+    private SurfaceView preview_view;
+    //private Toolbar toolbar;
+    private ViewfinderView viewfinder_view;
+    private AppCompatImageView flashLightIv;
+    private TextView flashLightTv;
+    private LinearLayout flashLightLayout;
+    private LinearLayout albumLayout;
+    private LinearLayoutCompat bottomLayout;
+    private boolean hasSurface;
+    private InactivityTimer inactivityTimer;
+    private BeepManager beepManager;
     private CameraManager cameraManager;
     private CaptureActivityHandler handler;
-    private ViewfinderView viewfinderView;
-    private boolean hasSurface;
-    private IntentSource source;
-    private Collection<BarcodeFormat> decodeFormats;
-    private Map<DecodeHintType, ?> decodeHints;
-    private String characterSet;
-    // 电量控制
-    private InactivityTimer inactivityTimer;
-    // 声音、震动控制
-    private BeepManager beepManager;
+    private SurfaceHolder surfaceHolder;
 
-    private ImageButton imageButton_back;
-    /*闪光灯*/
-    private ImageView flashLightIv;
-    /*闪光灯状态 默认为false*/
-    private boolean openFlashLight = false;
 
     public ViewfinderView getViewfinderView() {
-        return viewfinderView;
+        return viewfinder_view;
     }
 
     public Handler getHandler() {
@@ -79,55 +66,76 @@ public final class CaptureActivity extends Activity implements
     }
 
     public void drawViewfinder() {
-        viewfinderView.drawViewfinder();
+        viewfinder_view.drawViewfinder();
     }
 
-    /**
-     * OnCreate中初始化一些辅助类，如InactivityTimer（休眠）、Beep（声音）以及AmbientLight（闪光灯）
-     */
     @Override
-    public void onCreate(Bundle icicle) {
-        super.onCreate(icicle);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
         // 保持Activity处于唤醒状态
         Window window = getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        setContentView(R.layout.capture);
+        setContentView(R.layout.activity_capture);
+
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+        /*先获取配置信息*/
+        try {
+            config = (ZxingConfig) getIntent().getExtras().get(Constant.INTENT_ZXING_CONFIG);
+        } catch (Exception e) {
+            config = new ZxingConfig();
+        }
+
+
+
+
+        initView();
+
 
         hasSurface = false;
 
         inactivityTimer = new InactivityTimer(this);
         beepManager = new BeepManager(this);
+        beepManager.setPlayBeep(config.isPlayBeep());
+        beepManager.setVibrate(config.isShake());
 
 
-        imageButton_back = (ImageButton) findViewById(R.id.capture_imageview_back);
-        flashLightIv = (ImageView) findViewById(R.id.flashLightIv);
+    }
 
 
-        /*有闪光灯就显示按钮  否则隐藏（个别机器上不识别）*/
+    private void initView() {
+        preview_view = (SurfaceView) findViewById(R.id.preview_view);
+        preview_view.setOnClickListener(this);
+        //toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        viewfinder_view = (ViewfinderView) findViewById(R.id.viewfinder_view);
+        viewfinder_view.setOnClickListener(this);
+        flashLightIv = (AppCompatImageView) findViewById(R.id.flashLightIv);
+        flashLightTv = (TextView) findViewById(R.id.flashLightTv);
+        flashLightLayout = (LinearLayout) findViewById(R.id.flashLightLayout);
+        flashLightLayout.setOnClickListener(this);
+        albumLayout = (LinearLayout) findViewById(R.id.albumLayout);
+        albumLayout.setOnClickListener(this);
+        bottomLayout = (LinearLayoutCompat) findViewById(R.id.bottomLayout);
+
+
+
+        switchVisibility(bottomLayout, config.isShowbottomLayout());
+        switchVisibility(flashLightLayout, config.isShowFlashLight());
+        switchVisibility(albumLayout, config.isShowAlbum());
+//
+//        toolbar.setTitle("扫一扫");
+//        setSupportActionBar(toolbar);
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
+            /*有闪光灯就显示手电筒按钮  否则不显示*/
         if (isSupportCameraLedFlash(getPackageManager())) {
-            flashLightIv.setVisibility(View.VISIBLE);
-            flashLightIv.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-
-                    cameraManager.switchFlashLight(handler);
-
-                }
-
-
-            });
+            flashLightLayout.setVisibility(View.VISIBLE);
         } else {
-            Log.i("设备不支持闪光灯", "");
-            flashLightIv.setVisibility(View.GONE);
+            flashLightLayout.setVisibility(View.GONE);
         }
 
-
-        imageButton_back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
     }
 
     /*判断设备是否支持闪光灯*/
@@ -144,24 +152,62 @@ public final class CaptureActivity extends Activity implements
         return false;
     }
 
+        /*切换手电筒图片*/
+
+    public void switchFlashImg(int flashState) {
+
+        if (flashState == Constant.FLASH_OPEN) {
+            flashLightIv.setImageResource(R.drawable.ic_open);
+            flashLightTv.setText("关闭闪光灯");
+        } else {
+            flashLightIv.setImageResource(R.drawable.ic_close);
+            flashLightTv.setText("打开闪光灯");
+        }
+
+    }
+
+    /**
+     * 扫描成功，处理反馈信息
+     *
+     * @param rawResult
+     */
+    public void handleDecode(Result rawResult) {
+
+        inactivityTimer.onActivity();
+        beepManager.playBeepSoundAndVibrate();
+
+        Intent intent = getIntent();
+        intent.putExtra(Constant.CODED_CONTENT, rawResult.getText());
+        //      intent.putExtra(Constant.CODED_BITMAP, barcode);
+        setResult(RESULT_OK, intent);
+        this.finish();
+
+
+    }
+
+
+    /*切换view的显示*/
+    private void switchVisibility(View view, boolean b) {
+        if (b) {
+            view.setVisibility(View.VISIBLE);
+        } else {
+            view.setVisibility(View.GONE);
+        }
+    }
+
+
     @Override
     protected void onResume() {
         super.onResume();
 
-        // CameraManager必须在这里初始化，而不是在onCreate()中。
-        // 这是必须的，因为当我们第一次进入时需要显示帮助页，我们并不想打开Camera,测量屏幕大小
-        // 当扫描框的尺寸不正确时会出现bug
         cameraManager = new CameraManager(getApplication());
-        viewfinderView = (ViewfinderView) findViewById(R.id.viewfinder_view);
-        viewfinderView.setCameraManager(cameraManager);
 
+        viewfinder_view.setCameraManager(cameraManager);
         handler = null;
 
-        SurfaceView surfaceView = (SurfaceView) findViewById(R.id.preview_view);
-        SurfaceHolder surfaceHolder = surfaceView.getHolder();
+        surfaceHolder = preview_view.getHolder();
         if (hasSurface) {
-            // activity在paused时但不会stopped,因此surface仍旧存在；
-            // surfaceCreated()不会调用，因此在这里初始化camera
+
             initCamera(surfaceHolder);
         } else {
             // 重置callback，等待surfaceCreated()来初始化camera
@@ -171,9 +217,46 @@ public final class CaptureActivity extends Activity implements
         beepManager.updatePrefs();
         inactivityTimer.onResume();
 
-        source = IntentSource.NONE;
-        decodeFormats = null;
-        characterSet = null;
+    }
+
+    /**
+     * 初始化Camera
+     *
+     * @param surfaceHolder
+     */
+    private void initCamera(SurfaceHolder surfaceHolder) {
+        if (surfaceHolder == null) {
+            throw new IllegalStateException("No SurfaceHolder provided");
+        }
+        if (cameraManager.isOpen()) {
+            return;
+        }
+        try {
+            // 打开Camera硬件设备
+            cameraManager.openDriver(surfaceHolder);
+            // 创建一个handler来打开预览，并抛出一个运行时异常
+            if (handler == null) {
+                handler = new CaptureActivityHandler(this, cameraManager);
+            }
+        } catch (IOException ioe) {
+            Log.w(TAG, ioe);
+            displayFrameworkBugMessageAndExit();
+        } catch (RuntimeException e) {
+            Log.w(TAG, "Unexpected error initializing camera", e);
+            displayFrameworkBugMessageAndExit();
+        }
+    }
+
+    /**
+     * 显示错误信息
+     */
+    private void displayFrameworkBugMessageAndExit() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("扫一扫");
+        builder.setMessage(getString(R.string.msg_camera_framework_bug));
+        builder.setPositiveButton(R.string.button_ok, new FinishListener(this));
+        builder.setOnCancelListener(new FinishListener(this));
+        builder.show();
     }
 
     @Override
@@ -185,9 +268,9 @@ public final class CaptureActivity extends Activity implements
         inactivityTimer.onPause();
         beepManager.close();
         cameraManager.closeDriver();
+
         if (!hasSurface) {
-            SurfaceView surfaceView = (SurfaceView) findViewById(R.id.preview_view);
-            SurfaceHolder surfaceHolder = surfaceView.getHolder();
+
             surfaceHolder.removeCallback(this);
         }
         super.onPause();
@@ -218,84 +301,46 @@ public final class CaptureActivity extends Activity implements
 
     }
 
-    /*切换手电筒图片*/
+    /*点击事件*/
+    @Override
+    public void onClick(View view) {
 
-    public void switchFlashImg(int flashState) {
-
-        if (flashState == Consants.FLASH_OPEN) {
-            flashLightIv.setImageResource(R.drawable.open);
-        } else {
-            flashLightIv.setImageResource(R.drawable.close);
+        int id = view.getId();
+        if (id == R.id.flashLightLayout) {
+            /*切换闪光灯*/
+            cameraManager.switchFlashLight(handler);
+        } else if (id == R.id.albumLayout) {
+            /*打开相册*/
+            Intent intent = new Intent();
+            intent.setAction(Intent.ACTION_PICK);
+            intent.setType("image/*");
+            startActivityForResult(intent, Constant.REQUEST_IMAGE);
         }
 
     }
 
 
-    /**
-     * 扫描成功，处理反馈信息
-     *
-     * @param rawResult
-     * @param barcode
-     * @param scaleFactor
-     */
-    public void handleDecode(Result rawResult, Bitmap barcode, float scaleFactor) {
-        inactivityTimer.onActivity();
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
-        boolean fromLiveScan = barcode != null;
-        //这里处理解码完成后的结果，此处将参数回传到Activity处理
-        if (fromLiveScan) {
-            beepManager.playBeepSoundAndVibrate();
+        if (requestCode == Constant.REQUEST_IMAGE && resultCode == RESULT_OK) {
+            String path = ImageUtil.getImageAbsolutePath(this, data.getData());
 
-            // Toast.makeText(this, "扫描成功", Toast.LENGTH_SHORT).show();
+            new DecodeImgThread(path, new DecodeImgCallback() {
+                @Override
+                public void onImageDecodeSuccess(Result result) {
+                    handleDecode(result);
+                }
 
-            Intent intent = getIntent();
-            intent.putExtra(Consants.CODED_CONTENT, rawResult.getText());
-            intent.putExtra(Consants.CODED_BITMAP, barcode);
-            setResult(RESULT_OK, intent);
-            finish();
+                @Override
+                public void onImageDecodeFailed() {
+                    Toast.makeText(CaptureActivity.this, "抱歉，解析失败,换个图片试试.", Toast.LENGTH_SHORT).show();
+                }
+            }).run();
+
+
         }
-
-    }
-
-    /**
-     * 初始化Camera
-     *
-     * @param surfaceHolder
-     */
-    private void initCamera(SurfaceHolder surfaceHolder) {
-        if (surfaceHolder == null) {
-            throw new IllegalStateException("No SurfaceHolder provided");
-        }
-        if (cameraManager.isOpen()) {
-            return;
-        }
-        try {
-            // 打开Camera硬件设备
-            cameraManager.openDriver(surfaceHolder);
-            // 创建一个handler来打开预览，并抛出一个运行时异常
-            if (handler == null) {
-                handler = new CaptureActivityHandler(this, decodeFormats,
-                        decodeHints, characterSet, cameraManager);
-            }
-        } catch (IOException ioe) {
-            Log.w(TAG, ioe);
-            displayFrameworkBugMessageAndExit();
-        } catch (RuntimeException e) {
-            Log.w(TAG, "Unexpected error initializing camera", e);
-            displayFrameworkBugMessageAndExit();
-        }
-    }
-
-    /**
-     * 显示底层错误信息并退出应用
-     */
-    private void displayFrameworkBugMessageAndExit() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("扫一扫");
-        builder.setMessage(getString(R.string.msg_camera_framework_bug));
-        builder.setPositiveButton(R.string.button_ok, new FinishListener(this));
-        builder.setOnCancelListener(new FinishListener(this));
-        builder.show();
     }
 
 

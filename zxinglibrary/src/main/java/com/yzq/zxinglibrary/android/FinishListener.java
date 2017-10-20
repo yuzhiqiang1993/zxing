@@ -20,10 +20,7 @@ import android.app.Activity;
 import android.content.DialogInterface;
 
 /**
- * Simple listener used to exit the app in a few cases.
- * 用于在少数情况下退出App的监听
- *
- * @author Sean Owen
+ * 在相机会手电筒可能被占用的情况下退出
  */
 public final class FinishListener implements DialogInterface.OnClickListener, DialogInterface.OnCancelListener {
 

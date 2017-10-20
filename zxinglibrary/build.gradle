@@ -1,29 +1,37 @@
 apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
 
-group='com.github.yuzhiqiang1993'
+group = 'com.github.yuzhiqiang1993'
+
 android {
     compileSdkVersion 26
-    buildToolsVersion "26.0.0"
+    buildToolsVersion "26.0.2"
+
 
     defaultConfig {
-        minSdkVersion 15
-        targetSdkVersion 25
+        minSdkVersion 16
+        targetSdkVersion 26
         versionCode 1
         versionName "1.0"
-
-
-
+        vectorDrawables.useSupportLibrary = true
     }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile files('libs/core-3.3.0.jar')
+    api fileTree(include: ['*.jar'], dir: 'libs')
+
+    implementation files('libs/core-3.3.0.jar')
+    //provided 'com.android.support:appcompat-v7:26.1.0'
+    provided 'com.android.support:design:26.1.0'
+    provided 'com.android.support:support-vector-drawable:26.1.0'
+
 }

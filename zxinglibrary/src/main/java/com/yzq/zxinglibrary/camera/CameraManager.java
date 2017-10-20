@@ -26,8 +26,8 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 
 import com.google.zxing.PlanarYUVLuminanceSource;
-import com.yzq.zxinglibrary.Consants;
 import com.yzq.zxinglibrary.android.CaptureActivityHandler;
+import com.yzq.zxinglibrary.common.Constant;
 
 import java.io.IOException;
 
@@ -42,10 +42,7 @@ public final class CameraManager {
 
     private static final String TAG = CameraManager.class.getSimpleName();
 
-    private static int MIN_FRAME_WIDTH = 240;//取景框的最小宽度
-    private static int MIN_FRAME_HEIGHT = 240;//取景框的最小高度
-    private static int MAX_FRAME_WIDTH = 600; //  取景框的最大宽度
-    private static int MAX_FRAME_HEIGHT = 600; // 取景框的最大高度
+    private static CameraManager cameraManager;
 
     private final Context context;
     private final CameraConfigurationManager configManager;
@@ -71,6 +68,13 @@ public final class CameraManager {
         previewCallback = new PreviewCallback(configManager);
     }
 
+    public static void init(Context context) {
+        if (cameraManager == null) {
+            cameraManager = new CameraManager(context);
+        }
+    }
+
+
     /**
      * Opens the camera driver and initializes the hardware parameters.
      *
@@ -81,6 +85,7 @@ public final class CameraManager {
     public synchronized void openDriver(SurfaceHolder holder)
             throws IOException {
         Camera theCamera = camera;
+
         if (theCamera == null) {
 
             if (requestedCameraId >= 0) {
@@ -111,7 +116,7 @@ public final class CameraManager {
         String parametersFlattened = parameters == null ? null : parameters
                 .flatten(); // Save these, temporarily
         try {
-            configManager.setDesiredCameraParameters(theCamera, false);
+            configManager.setDesiredCameraParameters(theCamera);
         } catch (RuntimeException re) {
             // Driver failed
             Log.w(TAG,
@@ -124,7 +129,7 @@ public final class CameraManager {
                 parameters.unflatten(parametersFlattened);
                 try {
                     theCamera.setParameters(parameters);
-                    configManager.setDesiredCameraParameters(theCamera, true);
+                    configManager.setDesiredCameraParameters(theCamera);
                 } catch (RuntimeException re2) {
                     // Well, darn. Give up
                     Log.w(TAG,
@@ -169,13 +174,14 @@ public final class CameraManager {
             /*关闭闪光灯*/
             parameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
 
-            msg.what = Consants.FLASH_CLOSE;
+            msg.what = Constant.FLASH_CLOSE;
+
 
 
         } else {
             /*打开闪光灯*/
             parameters.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
-            msg.what = Consants.FLASH_OPEN;
+            msg.what = Constant.FLASH_OPEN;
         }
         camera.setParameters(parameters);
         handler.sendMessage(msg);
@@ -190,7 +196,7 @@ public final class CameraManager {
         if (theCamera != null && !previewing) {
             theCamera.startPreview();
             previewing = true;
-            autoFocusManager = new AutoFocusManager(context, camera);
+            autoFocusManager = new AutoFocusManager(camera);
         }
     }
 
@@ -225,14 +231,8 @@ public final class CameraManager {
         }
     }
 
-    /**
-     * Calculates the framing rect which the UI should draw to show the user
-     * where to place the barcode. This target helps with alignment as well as
-     * forces the user to hold the device far enough away to ensure the image
-     * will be in focus. 计算这个条形码的扫描框；便于声明的同时，也强制用户通过改变距离来扫描到整个条形码
-     *
-     * @return The rectangle to draw on screen in window coordinates.
-     */
+
+    /*取景框*/
     public synchronized Rect getFramingRect() {
         if (framingRect == null) {
             if (camera == null) {
@@ -245,48 +245,14 @@ public final class CameraManager {
             }
 
             int screenResolutionX = screenResolution.x;
-            int screenResolutiony = screenResolution.y;
-//            Log.i("screenResolutionX:", screenResolutionX + "");
-//            Log.i("screenResolutiony:", screenResolutiony + "");
+
+            int width = (int) (screenResolutionX * 0.6);
+            int height = width;
 
 
-            if (screenResolutionX >= 480 && screenResolutionX <= 600) {
-                MAX_FRAME_WIDTH = 300;
-            } else if (screenResolutionX > 600 && screenResolutionX <= 720) {
-                MAX_FRAME_WIDTH = 380;
-            } else {
-                MAX_FRAME_WIDTH = 600;
-            }
-
-            if (screenResolutiony >= 800 && screenResolutiony <= 960) {
-                MAX_FRAME_HEIGHT = 300;
-            } else if (screenResolutiony > 960 && screenResolutiony <= 1280) {
-                MAX_FRAME_HEIGHT = 380;
-            } else {
-                MAX_FRAME_HEIGHT = 600;
-            }
-
-
-            int width = findDesiredDimensionInRange(screenResolution.x,
-                    MIN_FRAME_WIDTH, MAX_FRAME_WIDTH);
-            int height = findDesiredDimensionInRange(screenResolution.y,
-                    MIN_FRAME_HEIGHT, MAX_FRAME_HEIGHT);
-
-
-//            Log.i("width:", width + "");
-//            Log.i("height:", height + "");
-
-            if (width < height) {
-                height = width;
-            } else {
-                width = height;
-            }
-
-            Log.i("width:", width + "");
+            /*水平居中  偏上显示*/
             int leftOffset = (screenResolution.x - width) / 2;
-            int topOffset = (screenResolution.y - height) / 2;
-//            Log.i("leftOffset:", leftOffset + "");
-//            Log.i("topOffset:", topOffset + "");
+            int topOffset = (screenResolution.y - height) / 5;
 
             framingRect = new Rect(leftOffset, topOffset, leftOffset + width,
                     topOffset + height);
@@ -295,20 +261,6 @@ public final class CameraManager {
         return framingRect;
     }
 
-    private static int findDesiredDimensionInRange(int resolution, int hardMin,
-                                                   int hardMax) {
-        int dim = 5 * resolution / 8; // Target 5/8 of each dimension
-//        Log.i("dim", dim + "");
-//        Log.i("hardMin", hardMin + "");
-//        Log.i("hardMax", hardMax + "");
-        if (dim < hardMin) {
-            return hardMin;
-        }
-        if (dim > hardMax) {
-            return hardMax;
-        }
-        return dim;
-    }
 
     /**
      * Like {@link #getFramingRect} but coordinates are in terms of the preview
@@ -396,8 +348,12 @@ public final class CameraManager {
             return null;
         }
         // Go ahead and assume it's YUV rather than die.
-        return new PlanarYUVLuminanceSource(data, width, height, rect.left,
-                rect.top, rect.width(), rect.height(), false);
+//        return new PlanarYUVLuminanceSource(data, width, height, rect.left,
+//                rect.top, rect.width(), rect.height(), false);
+        return new PlanarYUVLuminanceSource(data, width, height, 0,
+               0, width, height, false);
     }
-
+    public static CameraManager get() {
+        return cameraManager;
+    }
 }

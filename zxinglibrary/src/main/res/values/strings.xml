@@ -5,6 +5,10 @@
     <string name="button_ok">OK</string>
     <string name="viewfinderview_status_text1">将二维码/条码放入取景框内</string>
     <string name="viewfinderview_status_text2">即可自动扫描</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
 
 
 </resources>

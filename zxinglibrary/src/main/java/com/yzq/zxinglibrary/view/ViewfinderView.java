@@ -1,18 +1,3 @@
-/*
- * Copyright (C) 2008 ZXing authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package com.yzq.zxinglibrary.view;
 
@@ -26,9 +11,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.graphics.drawable.BitmapDrawable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 
 import com.google.zxing.ResultPoint;
@@ -40,8 +23,7 @@ import java.util.List;
 
 public final class ViewfinderView extends View {
 
-    private static final int[] SCANNER_ALPHA = {0, 64, 128, 192, 255, 192,
-            128, 64};
+    /*界面刷新间隔时间*/
     private static final long ANIMATION_DELAY = 80L;
     private static final int CURRENT_POINT_OPACITY = 0xA0;
     private static final int MAX_RESULT_POINTS = 20;
@@ -61,7 +43,7 @@ public final class ViewfinderView extends View {
     // 扫描线移动的y
     private int scanLineTop;
     // 扫描线移动速度
-    private final int SCAN_VELOCITY = 15;
+    private int SCAN_VELOCITY = 10;
     //扫描线高度
     private int scanLightHeight = 20;
     // 扫描线
@@ -83,8 +65,7 @@ public final class ViewfinderView extends View {
         scannerAlpha = 0;
         possibleResultPoints = new ArrayList<ResultPoint>(5);
         lastPossibleResultPoints = null;
-        scanLight = BitmapFactory.decodeResource(resources,
-                R.drawable.scan_light);
+        scanLight = BitmapFactory.decodeResource(resources, R.drawable.scan_light);
     }
 
     public void setCameraManager(CameraManager cameraManager) {
@@ -107,19 +88,19 @@ public final class ViewfinderView extends View {
         int width = canvas.getWidth();
         int height = canvas.getHeight();
 
-//
-//        Log.i("canvas.getWidth()", width + "");
-//        Log.i("canvas.getHeight()", height + "");
-
 
         // Draw the exterior (i.e. outside the framing rect) darkened
         // 绘制取景框外的暗灰色的表面，分四个矩形绘制
         paint.setColor(resultBitmap != null ? resultColor : maskColor);
-        canvas.drawRect(0, 0, width, frame.top, paint);// Rect_1
-        canvas.drawRect(0, frame.top, frame.left, frame.bottom + 1, paint); // Rect_2
+        /*上面的框*/
+        canvas.drawRect(0, 0, width, frame.top, paint);
+        /*绘制左边的框*/
+        canvas.drawRect(0, frame.top, frame.left, frame.bottom + 1, paint);
+        /*绘制右边的框*/
         canvas.drawRect(frame.right + 1, frame.top, width, frame.bottom + 1,
-                paint); // Rect_3
-        canvas.drawRect(0, frame.bottom + 1, width, height, paint); // Rect_4
+                paint);
+        /*绘制下面的框*/
+        canvas.drawRect(0, frame.bottom + 1, width, height, paint);
 
         if (resultBitmap != null) {
             // Draw the opaque result bitmap over the scanning rectangle
@@ -127,12 +108,13 @@ public final class ViewfinderView extends View {
             paint.setAlpha(CURRENT_POINT_OPACITY);
             canvas.drawBitmap(resultBitmap, null, frame, paint);
         } else {
-            // Draw a red "laser scanner" line through the middle to show
-            // decoding is active
+
+            /*绘制取景框边框*/
             drawFrameBounds(canvas, frame);
-            drawStatusText(canvas, frame, width);
 
-
+            /*绘制提示文字*/
+            //  drawStatusText(canvas, frame, width);
+            /*绘制扫描线*/
             drawScanLight(canvas, frame);
 
             float scaleX = frame.width() / (float) previewFrame.width();
@@ -190,34 +172,32 @@ public final class ViewfinderView extends View {
      */
     private void drawFrameBounds(Canvas canvas, Rect frame) {
 
-        paint.setColor(Color.WHITE);
-        paint.setStrokeWidth(2);
-        paint.setStyle(Paint.Style.STROKE);
 
-        canvas.drawRect(frame, paint);
 
+        /*扫描框的边框线*/
+//        paint.setColor(Color.WHITE);
+//        paint.setStrokeWidth(2);
+//        paint.setStyle(Paint.Style.STROKE);
+//
+//        canvas.drawRect(frame, paint);
+
+        /*扫描框的四个角*/
         paint.setColor(Color.BLUE);
         paint.setStyle(Paint.Style.FILL);
+        paint.setStrokeWidth(1);
 
-
-        /*低分辨率处理*/
+        /*四个角的长度和宽度*/
         int width = frame.width();
-        // Log.i("width",width+"");
+        int corLength = (int) (width * 0.1);
+        int corWidth = (int) (corLength * 0.2);
 
-        int corLength;
-        int corWidth;
-        if (width == 300) {
-            corWidth = 5;
-            corLength = 20;
-        } else if (width == 380) {
-            corWidth = 13;
-            corLength = 35;
-        } else {
+
+        if (corWidth > 15) {
             corWidth = 15;
-            corLength = 45;
         }
 
 
+        /*角在线外*/
         // 左上角
         canvas.drawRect(frame.left - corWidth, frame.top, frame.left, frame.top
                 + corLength, paint);
@@ -259,7 +239,6 @@ public final class ViewfinderView extends View {
         int statusTextSize;
 
          /*低分辨率处理*/
-
         if (width >= 480 && width <= 600) {
             statusTextSize = 22;
         } else if (width > 600 && width <= 720) {
@@ -295,6 +274,9 @@ public final class ViewfinderView extends View {
             scanLineTop = frame.top;
         } else {
 
+            /*缓动动画*/
+            SCAN_VELOCITY = (frame.bottom - scanLineTop) / 12;
+            SCAN_VELOCITY = (int) (SCAN_VELOCITY > 10 ? Math.ceil(SCAN_VELOCITY) : 10);
             scanLineTop += SCAN_VELOCITY;
         }
         Rect scanRect = new Rect(frame.left, scanLineTop, frame.right,
