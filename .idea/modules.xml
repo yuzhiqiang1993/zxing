@@ -4,7 +4,8 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Zxing.iml" filepath="$PROJECT_DIR$/Zxing.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/zxinglibrary/zxinglib.iml" filepath="$PROJECT_DIR$/zxinglibrary/zxinglib.iml" />
+      <module fileurl="file://E:\Github\Zxing\zxinglibrary\zxinglib.iml" filepath="E:\Github\Zxing\zxinglibrary\zxinglib.iml" />
+      <module fileurl="file://$PROJECT_DIR$/zxinglibrary/zxinglibrary.iml" filepath="$PROJECT_DIR$/zxinglibrary/zxinglibrary.iml" />
     </modules>
   </component>
 </project>

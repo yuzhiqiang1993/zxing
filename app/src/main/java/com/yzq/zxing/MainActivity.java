@@ -3,6 +3,7 @@ package com.yzq.zxing;
 import android.Manifest;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -70,13 +71,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             public void onSucceed(int requestCode, @NonNull List<String> grantPermissions) {
                                 Intent intent = new Intent(MainActivity.this, CaptureActivity.class);
 
+                                /*ZxingConfig是配置类  可以设置是否显示底部布局，闪光灯，相册，是否播放提示音  震动等动能
+                                * 也可以不传这个参数
+                                * 不传的话  默认都为默认不震动  其他都为true
+                                * */
+
                                 ZxingConfig config = new ZxingConfig();
                                 config.setPlayBeep(true);
                                 config.setShake(true);
                                 intent.putExtra(Constant.INTENT_ZXING_CONFIG, config);
 
                                 startActivityForResult(intent,REQUEST_CODE_SCAN);
-
                             }
 
                             @Override
@@ -93,6 +98,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     Toast.makeText(this, "contentEtString不能为空", Toast.LENGTH_SHORT).show();
                     return;
                 }
+
                 Bitmap bitmap = null;
                 try {
                     bitmap = CodeCreator.createQRCode(contentEtString, 400, 400, null);
