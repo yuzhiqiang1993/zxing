@@ -3,4 +3,4 @@
 
 
 
-详细使用教程请看：http://blog.csdn.net/yuzhiqiang_1993/article/details/78292004。
+详细使用教程请看：http://blog.csdn.net/yuzhiqiang_1993/article/details/78292004
