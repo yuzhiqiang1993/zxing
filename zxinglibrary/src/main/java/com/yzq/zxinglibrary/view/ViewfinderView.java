@@ -34,10 +34,8 @@ public final class ViewfinderView extends View {
     private Bitmap resultBitmap;
     private final int maskColor; // 取景框外的背景颜色
     private final int resultColor;// result Bitmap的颜色
-    private final int laserColor; // 红色扫描线的颜色
     private final int resultPointColor; // 特征点的颜色
     private final int statusColor; // 提示文字颜色
-    private int scannerAlpha;
     private List<ResultPoint> possibleResultPoints;
     private List<ResultPoint> lastPossibleResultPoints;
     // 扫描线移动的y
@@ -59,10 +57,8 @@ public final class ViewfinderView extends View {
         Resources resources = getResources();
         maskColor = resources.getColor(R.color.viewfinder_mask);
         resultColor = resources.getColor(R.color.result_view);
-        laserColor = resources.getColor(R.color.viewfinder_laser);
         resultPointColor = resources.getColor(R.color.possible_result_points);
         statusColor = resources.getColor(R.color.status_text);
-        scannerAlpha = 0;
         possibleResultPoints = new ArrayList<ResultPoint>(5);
         lastPossibleResultPoints = null;
         scanLight = BitmapFactory.decodeResource(resources, R.drawable.scan_light);

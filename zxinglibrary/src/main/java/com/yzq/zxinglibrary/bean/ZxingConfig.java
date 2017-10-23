@@ -22,6 +22,7 @@ public class ZxingConfig implements Serializable {
     /*是否显示相册按钮*/
     private boolean isShowAlbum = true;
 
+
     public boolean isPlayBeep() {
         return isPlayBeep;
     }

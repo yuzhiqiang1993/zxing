@@ -71,12 +71,10 @@ public class DecodeImgThread extends Thread {
             decodeFormats.addAll(DecodeFormatManager.DATA_MATRIX_FORMATS);
         }
         hints.put(DecodeHintType.POSSIBLE_FORMATS, decodeFormats);
-        // 设置继续的字符编码格式为UTF8
+        // 设置解析的字符编码格式为UTF8
         hints.put(DecodeHintType.CHARACTER_SET, "UTF8");
         // 设置解析配置参数
         multiFormatReader.setHints(hints);
-
-
         // 开始对图像资源解码
         Result rawResult = null;
         try {
