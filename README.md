@@ -14,9 +14,13 @@ https://github.com/yuzhiqiang1993/zxing/wiki/%E6%9B%B4%E6%96%B0%E6%97%A5%E5%BF%9
 首先来看看效果图
 ========
 
+
+下图分别为扫描二维码，扫描条码，闪光灯，解析二维码图片，解析条码图片，生成二维码
+------------------------
 ![扫描二维码](https://github.com/yuzhiqiang1993/zxing/blob/master/img/scanEwm.gif "扫描二维码")
 ![扫描条码](https://github.com/yuzhiqiang1993/zxing/blob/master/img/scanTm.gif "扫描条码")
 ![闪光灯](https://github.com/yuzhiqiang1993/zxing/blob/master/img/flashlight.gif "闪光灯")
 ![解析二维码图片](https://github.com/yuzhiqiang1993/zxing/blob/master/img/decodeEWM.gif "解析二维码图片")
 ![解析条码图片](https://github.com/yuzhiqiang1993/zxing/blob/master/img/decodeTM.gif "解析条码图片")
 ![生成二维码图片](https://github.com/yuzhiqiang1993/zxing/blob/master/img/createEwm.gif "生成二维码图片")
+
