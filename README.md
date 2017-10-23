@@ -68,19 +68,22 @@ allprojects {
 
 ```
 private int REQUEST_CODE_SCAN = 111;
-Intent intent = new Intent(MainActivity.this, CaptureActivity.class);
+
 /*ZxingConfig是配置类  可以设置是否显示底部布局，闪光灯，相册，是否播放提示音  震动等动能
 * 也可以不传这个参数
 * 不传的话  默认都为默认不震动  其他都为true
 * */
+//ZxingConfig config = new ZxingConfig();
+//config.setShowbottomLayout(true);//底部布局（包括闪光灯和相册）
+//config.setPlayBeep(true);//是否播放提示音
+//config.setShake(true);//是否震动
+//config.setShowAlbum(true);//是否显示相册
+//config.setShowFlashLight(true);//是否显示闪光灯
 
-ZxingConfig config = new ZxingConfig();
-config.setShowbottomLayout(true);//底部布局（包括闪光灯和相册）
-config.setPlayBeep(true);//是否播放提示音
-config.setShake(true);//是否震动
-config.setShowAlbum(true);//是否显示相册
-config.setShowFlashLight(true);//是否显示闪光灯
-intent.putExtra(Constant.INTENT_ZXING_CONFIG, config);
+
+//如果不传 ZxingConfig的话，两行代码就能搞定了
+Intent intent = new Intent(MainActivity.this, CaptureActivity.class);
+//intent.putExtra(Constant.INTENT_ZXING_CONFIG, config);
 startActivityForResult(intent, REQUEST_CODE_SCAN);
 
 ```
@@ -105,7 +108,6 @@ startActivityForResult(intent, REQUEST_CODE_SCAN);
     }
 
 ```
-这样依赖扫一扫就集成好了。
 
 
 5.生成二维码
@@ -136,5 +138,5 @@ startActivityForResult(intent, REQUEST_CODE_SCAN);
 ```
 >
 
-ok,搞定了，如果你觉得还行的话，麻烦给个start呦，有什么问题直接提Issues,谢谢。
+ok,搞定了，就是这么简单，如果你觉得还行的话，麻烦给个start呦，有什么问题和建议直接提Issues,谢谢。
 --------------------------
