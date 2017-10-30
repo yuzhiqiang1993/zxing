@@ -3,10 +3,11 @@ package com.yzq.zxinglibrary.bean;
 import java.io.Serializable;
 
 /**
- * Created by yzq on 2017/10/19.
- * <p>
- * zxing配置类
+ * @author: yzq
+ * @date: 2017/10/27 14:48
+ * @declare :zxing配置类
  */
+
 
 public class ZxingConfig implements Serializable {
 
@@ -21,6 +22,7 @@ public class ZxingConfig implements Serializable {
     private boolean isShowFlashLight = true;
     /*是否显示相册按钮*/
     private boolean isShowAlbum = true;
+
 
 
     public boolean isPlayBeep() {

@@ -4,7 +4,9 @@ import android.Manifest;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -24,6 +26,13 @@ import com.yzq.zxinglibrary.common.Constant;
 import com.yzq.zxinglibrary.encode.CodeCreator;
 
 import java.util.List;
+
+
+/**
+ * @author: yzq
+ * @date: 2017/10/26 15:17
+ * @declare :
+ */
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -81,15 +90,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 config.setShake(true);
                                 intent.putExtra(Constant.INTENT_ZXING_CONFIG, config);
 
-                                startActivityForResult(intent,REQUEST_CODE_SCAN);
+                                startActivityForResult(intent, REQUEST_CODE_SCAN);
                             }
 
                             @Override
                             public void onFailed(int requestCode, @NonNull List<String> deniedPermissions) {
 
+                                Uri packageURI = Uri.parse("package:" + getPackageName());
+                                Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, packageURI);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+                                startActivity(intent);
+
+                                Toast.makeText(MainActivity.this, "没有权限无法扫描呦", Toast.LENGTH_LONG).show();
                             }
                         }).start();
-
 
                 break;
             case R.id.encodeBtn:
@@ -110,6 +125,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
 
                 break;
+
+            default:
         }
     }
 

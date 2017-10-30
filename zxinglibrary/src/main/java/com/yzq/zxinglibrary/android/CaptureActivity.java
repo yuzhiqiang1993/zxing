@@ -33,18 +33,23 @@ import com.yzq.zxinglibrary.view.ViewfinderView;
 import java.io.IOException;
 
 
+/**
+ * @author: yzq
+ * @date: 2017/10/26 15:22
+ * @declare :扫一扫
+ */
+
 public class CaptureActivity extends Activity implements SurfaceHolder.Callback, View.OnClickListener {
 
     private static final String TAG = CaptureActivity.class.getSimpleName();
     private ZxingConfig config;
-    private SurfaceView preview_view;
-    //private Toolbar toolbar;
-    private ViewfinderView viewfinder_view;
+    private SurfaceView previewView;
+    private ViewfinderView viewfinderView;
     private AppCompatImageView flashLightIv;
     private TextView flashLightTv;
     private LinearLayout flashLightLayout;
     private LinearLayout albumLayout;
-    private LinearLayoutCompat bottomLayout;
+    private LinearLayout bottomLayout;
     private boolean hasSurface;
     private InactivityTimer inactivityTimer;
     private BeepManager beepManager;
@@ -54,7 +59,7 @@ public class CaptureActivity extends Activity implements SurfaceHolder.Callback,
 
 
     public ViewfinderView getViewfinderView() {
-        return viewfinder_view;
+        return viewfinderView;
     }
 
     public Handler getHandler() {
@@ -66,8 +71,9 @@ public class CaptureActivity extends Activity implements SurfaceHolder.Callback,
     }
 
     public void drawViewfinder() {
-        viewfinder_view.drawViewfinder();
+        viewfinderView.drawViewfinder();
     }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,21 +82,28 @@ public class CaptureActivity extends Activity implements SurfaceHolder.Callback,
         // 保持Activity处于唤醒状态
         Window window = getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        setContentView(R.layout.activity_capture);
 
-        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+        Log.i("onCreate", "setContentView");
         /*先获取配置信息*/
         try {
             config = (ZxingConfig) getIntent().getExtras().get(Constant.INTENT_ZXING_CONFIG);
         } catch (Exception e) {
+
+            Log.i("config", e.toString());
+        }
+
+        if (config == null) {
             config = new ZxingConfig();
         }
 
 
 
+        setContentView(R.layout.activity_capture);
+
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+
 
         initView();
-
 
         hasSurface = false;
 
@@ -104,29 +117,25 @@ public class CaptureActivity extends Activity implements SurfaceHolder.Callback,
 
 
     private void initView() {
-        preview_view = (SurfaceView) findViewById(R.id.preview_view);
-        preview_view.setOnClickListener(this);
-        //toolbar = (Toolbar) findViewById(R.id.toolbar);
+        previewView = findViewById(R.id.preview_view);
+        previewView.setOnClickListener(this);
 
-        viewfinder_view = (ViewfinderView) findViewById(R.id.viewfinder_view);
-        viewfinder_view.setOnClickListener(this);
-        flashLightIv = (AppCompatImageView) findViewById(R.id.flashLightIv);
-        flashLightTv = (TextView) findViewById(R.id.flashLightTv);
-        flashLightLayout = (LinearLayout) findViewById(R.id.flashLightLayout);
+        viewfinderView = findViewById(R.id.viewfinder_view);
+        viewfinderView.setOnClickListener(this);
+
+
+        flashLightIv = findViewById(R.id.flashLightIv);
+        flashLightTv = findViewById(R.id.flashLightTv);
+        flashLightLayout = findViewById(R.id.flashLightLayout);
         flashLightLayout.setOnClickListener(this);
-        albumLayout = (LinearLayout) findViewById(R.id.albumLayout);
+        albumLayout = findViewById(R.id.albumLayout);
         albumLayout.setOnClickListener(this);
-        bottomLayout = (LinearLayoutCompat) findViewById(R.id.bottomLayout);
-
+        bottomLayout = findViewById(R.id.bottomLayout);
 
 
         switchVisibility(bottomLayout, config.isShowbottomLayout());
         switchVisibility(flashLightLayout, config.isShowFlashLight());
         switchVisibility(albumLayout, config.isShowAlbum());
-//
-//        toolbar.setTitle("扫一扫");
-//        setSupportActionBar(toolbar);
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
             /*有闪光灯就显示手电筒按钮  否则不显示*/
@@ -138,22 +147,28 @@ public class CaptureActivity extends Activity implements SurfaceHolder.Callback,
 
     }
 
-    /*判断设备是否支持闪光灯*/
+
+    /**
+     * @param pm
+     * @return 是否有闪光灯
+     */
     public static boolean isSupportCameraLedFlash(PackageManager pm) {
         if (pm != null) {
             FeatureInfo[] features = pm.getSystemAvailableFeatures();
             if (features != null) {
                 for (FeatureInfo f : features) {
-                    if (f != null && PackageManager.FEATURE_CAMERA_FLASH.equals(f.name))
+                    if (f != null && PackageManager.FEATURE_CAMERA_FLASH.equals(f.name)) {
                         return true;
+                    }
                 }
             }
         }
         return false;
     }
 
-        /*切换手电筒图片*/
-
+    /**
+     * @param flashState 切换闪光灯图片
+     */
     public void switchFlashImg(int flashState) {
 
         if (flashState == Constant.FLASH_OPEN) {
@@ -167,18 +182,16 @@ public class CaptureActivity extends Activity implements SurfaceHolder.Callback,
     }
 
     /**
-     * 扫描成功，处理反馈信息
-     *
-     * @param rawResult
+     * @param rawResult 返回的扫描结果
      */
     public void handleDecode(Result rawResult) {
 
         inactivityTimer.onActivity();
+
         beepManager.playBeepSoundAndVibrate();
 
         Intent intent = getIntent();
         intent.putExtra(Constant.CODED_CONTENT, rawResult.getText());
-        //      intent.putExtra(Constant.CODED_BITMAP, barcode);
         setResult(RESULT_OK, intent);
         this.finish();
 
@@ -186,7 +199,6 @@ public class CaptureActivity extends Activity implements SurfaceHolder.Callback,
     }
 
 
-    /*切换view的显示*/
     private void switchVisibility(View view, boolean b) {
         if (b) {
             view.setVisibility(View.VISIBLE);
@@ -202,10 +214,10 @@ public class CaptureActivity extends Activity implements SurfaceHolder.Callback,
 
         cameraManager = new CameraManager(getApplication());
 
-        viewfinder_view.setCameraManager(cameraManager);
+        viewfinderView.setCameraManager(cameraManager);
         handler = null;
 
-        surfaceHolder = preview_view.getHolder();
+        surfaceHolder = previewView.getHolder();
         if (hasSurface) {
 
             initCamera(surfaceHolder);
@@ -219,11 +231,6 @@ public class CaptureActivity extends Activity implements SurfaceHolder.Callback,
 
     }
 
-    /**
-     * 初始化Camera
-     *
-     * @param surfaceHolder
-     */
     private void initCamera(SurfaceHolder surfaceHolder) {
         if (surfaceHolder == null) {
             throw new IllegalStateException("No SurfaceHolder provided");
@@ -247,9 +254,6 @@ public class CaptureActivity extends Activity implements SurfaceHolder.Callback,
         }
     }
 
-    /**
-     * 显示错误信息
-     */
     private void displayFrameworkBugMessageAndExit() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("扫一扫");
@@ -290,6 +294,7 @@ public class CaptureActivity extends Activity implements SurfaceHolder.Callback,
         }
     }
 
+
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
         hasSurface = false;
@@ -301,7 +306,6 @@ public class CaptureActivity extends Activity implements SurfaceHolder.Callback,
 
     }
 
-    /*点击事件*/
     @Override
     public void onClick(View view) {
 

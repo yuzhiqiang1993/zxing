@@ -12,6 +12,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 import com.google.zxing.ResultPoint;
@@ -36,6 +37,12 @@ public final class ViewfinderView extends View {
     private final int resultColor;// result Bitmap的颜色
     private final int resultPointColor; // 特征点的颜色
     private final int statusColor; // 提示文字颜色
+
+
+
+
+
+
     private List<ResultPoint> possibleResultPoints;
     private List<ResultPoint> lastPossibleResultPoints;
     // 扫描线移动的y
@@ -51,15 +58,19 @@ public final class ViewfinderView extends View {
     public ViewfinderView(Context context, AttributeSet attrs) {
         super(context, attrs);
 
-        // Initialize these once for performance rather than calling them every
-        // time in onDraw().
+
+
         paint = new Paint(Paint.ANTI_ALIAS_FLAG);
         Resources resources = getResources();
+
         maskColor = resources.getColor(R.color.viewfinder_mask);
         resultColor = resources.getColor(R.color.result_view);
         resultPointColor = resources.getColor(R.color.possible_result_points);
         statusColor = resources.getColor(R.color.status_text);
-        possibleResultPoints = new ArrayList<ResultPoint>(5);
+
+
+
+        possibleResultPoints = new ArrayList<ResultPoint>(10);
         lastPossibleResultPoints = null;
         scanLight = BitmapFactory.decodeResource(resources, R.drawable.scan_light);
     }
@@ -188,9 +199,11 @@ public final class ViewfinderView extends View {
         int corWidth = (int) (corLength * 0.2);
 
 
-        if (corWidth > 15) {
-            corWidth = 15;
-        }
+//        if (corWidth > 15) {
+//            corWidth = 15;
+//        }
+
+        corWidth=corWidth>15?15:corWidth;
 
 
         /*角在线外*/

@@ -5,7 +5,7 @@ group = 'com.github.yuzhiqiang1993'
 
 android {
     compileSdkVersion 26
-    buildToolsVersion "26.0.2"
+    buildToolsVersion '26.0.2'
 
 
     defaultConfig {
@@ -18,7 +18,7 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -28,10 +28,9 @@ android {
 
 dependencies {
     api fileTree(include: ['*.jar'], dir: 'libs')
-
-    implementation files('libs/core-3.3.0.jar')
+    api files('libs/core-3.3.0.jar')
     //provided 'com.android.support:appcompat-v7:26.1.0'
-    provided 'com.android.support:design:26.1.0'
-    provided 'com.android.support:support-vector-drawable:26.1.0'
-
+    compileOnly 'com.android.support:design:26.1.0'
+    compileOnly 'com.android.support:support-vector-drawable:26.1.0'
+    
 }
