@@ -4,8 +4,9 @@
 更新日志：
 https://github.com/yuzhiqiang1993/zxing/wiki/%E6%9B%B4%E6%96%B0%E6%97%A5%E5%BF%97
 
-博客：http://blog.csdn.net/yuzhiqiang_1993/article/details/78292004
-``
+博客： http://blog.csdn.net/yuzhiqiang_1993/article/details/78292004
+
+
 扫描下载APK
 ========
 ![扫描二维码](https://github.com/yuzhiqiang1993/zxing/blob/master/img/downloadApk.png "扫描下载APK")
