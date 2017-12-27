@@ -16,6 +16,7 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -56,6 +57,7 @@ public class CaptureActivity extends Activity implements SurfaceHolder.Callback,
     private CameraManager cameraManager;
     private CaptureActivityHandler handler;
     private SurfaceHolder surfaceHolder;
+    private ImageButton back;
 
 
     public ViewfinderView getViewfinderView() {
@@ -131,6 +133,8 @@ public class CaptureActivity extends Activity implements SurfaceHolder.Callback,
         albumLayout = findViewById(R.id.albumLayout);
         albumLayout.setOnClickListener(this);
         bottomLayout = findViewById(R.id.bottomLayout);
+        back = findViewById(R.id.capture_imageview_back);
+        back.setOnClickListener(this);
 
 
         switchVisibility(bottomLayout, config.isShowbottomLayout());
@@ -319,6 +323,8 @@ public class CaptureActivity extends Activity implements SurfaceHolder.Callback,
             intent.setAction(Intent.ACTION_PICK);
             intent.setType("image/*");
             startActivityForResult(intent, Constant.REQUEST_IMAGE);
+        } else if (id == R.id.capture_imageview_back){
+            this.finish();
         }
 
     }
