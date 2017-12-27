@@ -76,7 +76,6 @@ public class CaptureActivity extends Activity implements SurfaceHolder.Callback,
         viewfinderView.drawViewfinder();
     }
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
