@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context="com.yzq.zxinglibrary.android.CaptureActivity">
     <!-- 整体透明画布 -->
 
 
@@ -15,6 +17,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
         android:orientation="vertical">
 
         <RelativeLayout
@@ -75,9 +80,8 @@
                     android:layout_width="36dp"
                     android:layout_height="36dp"
                     android:scaleType="centerCrop"
-                    android:tint="#ffffffff"
-
-                    app:srcCompat="@drawable/ic_close" />
+                    android:src="@drawable/ic_close"
+                    tools:ignore="VectorDrawableCompat" />
 
                 <TextView
                     android:id="@+id/flashLightTv"
@@ -105,9 +109,10 @@
                     android:layout_height="36dp"
                     android:scaleType="centerCrop"
 
+                    android:src="@drawable/ic_photo"
                     android:tint="#ffffffff"
 
-                    app:srcCompat="@drawable/ic_photo" />
+                    tools:ignore="VectorDrawableCompat" />
 
                 <TextView
                     android:layout_width="match_parent"

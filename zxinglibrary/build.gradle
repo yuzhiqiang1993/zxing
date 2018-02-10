@@ -31,6 +31,7 @@ dependencies {
     api files('libs/core-3.3.0.jar')
     compileOnly 'com.android.support:appcompat-v7:27.0.2'
     compileOnly 'com.android.support:design:27.0.2'
+    compileOnly 'com.android.support:support-v4:27.0.2'
     compileOnly 'com.android.support:support-vector-drawable:27.0.2'
     
 }
