@@ -1,5 +1,6 @@
 package com.yzq.zxinglibrary.android;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.pm.FeatureInfo;
@@ -16,6 +17,7 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -129,7 +131,8 @@ public class CaptureActivity extends AppCompatActivity implements SurfaceHolder.
         viewfinderView.setOnClickListener(this);
 
 
-        flashLightIv = findViewById(R.id.flashLightIv);
+        flashLightIv = (AppCompatImageView) findViewById(R.id.flashLightIv);
+        flashLightTv=(TextView) findViewById(R.id.flashLightTv);
 
         flashLightLayout = findViewById(R.id.flashLightLayout);
         flashLightLayout.setOnClickListener(this);

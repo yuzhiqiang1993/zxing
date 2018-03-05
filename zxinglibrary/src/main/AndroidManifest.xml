@@ -14,12 +14,13 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
 
-    <application >
+    <application>
         <activity
 
             android:name=".android.CaptureActivity"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
+            android:theme="@style/Base.Theme.AppCompat.Light.DarkActionBar"
             android:windowSoftInputMode="adjustPan|stateHidden" />
     </application>
 </manifest>
