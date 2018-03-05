@@ -25,8 +25,8 @@ dependencies {
     implementation 'com.android.support:design:26.1.0'
     implementation 'com.android.support:support-vector-drawable:26.1.0'
     implementation 'com.yanzhenjie:permission:1.1.0'
-  //  implementation 'com.github.yuzhiqiang1993:zxing:2.1.0'
-   implementation project(':zxinglibrary')
+    implementation 'com.github.yuzhiqiang1993:zxing:2.1.1-dev'
+   //implementation project(':zxinglibrary')
 
 
 }
