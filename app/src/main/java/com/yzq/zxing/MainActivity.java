@@ -3,12 +3,12 @@ package com.yzq.zxing;
 import android.Manifest;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -41,6 +41,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private EditText contentEt;
     private Button encodeBtn;
     private ImageView contentIv;
+    private Toolbar toolbar;
     private int REQUEST_CODE_SCAN = 111;
 
     @Override
@@ -65,6 +66,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         encodeBtn.setOnClickListener(this);
         /*生成的图片*/
         contentIv = (ImageView) findViewById(R.id.contentIv);
+
+        toolbar=findViewById(R.id.toolbar);
+
+        toolbar.setTitle("扫一扫");
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 
     }
 

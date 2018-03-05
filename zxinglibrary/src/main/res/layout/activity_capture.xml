@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.yzq.zxinglibrary.android.CaptureActivity">
     <!-- 整体透明画布 -->
 
@@ -50,7 +50,7 @@
             android:layout_weight="1" />
 
 
-        <LinearLayout
+        <android.support.v7.widget.LinearLayoutCompat
             android:id="@+id/bottomLayout"
             android:layout_width="match_parent"
             android:layout_height="96dp"
@@ -59,7 +59,7 @@
 
             android:orientation="horizontal">
 
-            <LinearLayout
+            <android.support.v7.widget.LinearLayoutCompat
                 android:id="@+id/flashLightLayout"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -70,9 +70,9 @@
                 <android.support.v7.widget.AppCompatImageView
                     android:id="@+id/flashLightIv"
                     android:layout_width="36dp"
-                    app:srcCompat="@drawable/ic_close"
                     android:layout_height="36dp"
-                    android:scaleType="centerCrop" />
+                    android:scaleType="centerCrop"
+                    app:srcCompat="@drawable/ic_close" />
 
                 <TextView
                     android:id="@+id/flashLightTv"
@@ -84,9 +84,9 @@
 
                     android:textColor="@color/result_text" />
 
-            </LinearLayout>
+            </android.support.v7.widget.LinearLayoutCompat>
 
-            <LinearLayout
+            <android.support.v7.widget.LinearLayoutCompat
                 android:id="@+id/albumLayout"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -102,6 +102,7 @@
                     android:tint="#ffffffff"
                     app:srcCompat="@drawable/ic_photo"
 
+
                     />
 
                 <TextView
@@ -112,10 +113,10 @@
                     android:text="相册"
 
                     android:textColor="@color/result_text" />
-            </LinearLayout>
+            </android.support.v7.widget.LinearLayoutCompat>
 
 
-        </LinearLayout>
+        </android.support.v7.widget.LinearLayoutCompat>
 
     </android.support.v7.widget.LinearLayoutCompat>
 </RelativeLayout>

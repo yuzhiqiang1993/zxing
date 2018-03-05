@@ -3,12 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://E:\workspace\Github\zxing\app\app.iml" filepath="E:\workspace\Github\zxing\app\app.iml" />
       <module fileurl="file://$PROJECT_DIR$/zxing.iml" filepath="$PROJECT_DIR$/zxing.iml" />
-      <module fileurl="file://E:\workspace\Github\zxing\zxing.iml" filepath="E:\workspace\Github\zxing\zxing.iml" />
-      <module fileurl="file://E:\Github\Zxing\zxinglibrary\zxinglib.iml" filepath="E:\Github\Zxing\zxinglibrary\zxinglib.iml" />
       <module fileurl="file://$PROJECT_DIR$/zxinglibrary/zxinglibrary.iml" filepath="$PROJECT_DIR$/zxinglibrary/zxinglibrary.iml" />
-      <module fileurl="file://E:\workspace\Github\zxing\zxinglibrary\zxinglibrary.iml" filepath="E:\workspace\Github\zxing\zxinglibrary\zxinglibrary.iml" />
     </modules>
   </component>
 </project>
