@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.yzq.zxinglibrary.android.CaptureActivity">
     <!-- 整体透明画布 -->
 
@@ -14,7 +15,7 @@
         android:layout_height="match_parent" />
 
 
-    <LinearLayout
+    <android.support.v7.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentLeft="true"
@@ -27,15 +28,6 @@
             android:layout_height="48dp"
             android:layout_gravity="top"
             android:background="#99000000">
-
-            <!--<android.support.v7.widget.AppCompatImageView-->
-            <!--android:id="@+id/back"-->
-            <!--android:layout_width="48dp"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:layout_centerVertical="true"-->
-            <!---->
-            <!--android:scaleType="centerInside"-->
-            <!--android:tint="#ffffffff" />-->
 
             <TextView
                 android:layout_width="wrap_content"
@@ -78,10 +70,9 @@
                 <android.support.v7.widget.AppCompatImageView
                     android:id="@+id/flashLightIv"
                     android:layout_width="36dp"
+                    app:srcCompat="@drawable/ic_close"
                     android:layout_height="36dp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/ic_close"
-                    tools:ignore="VectorDrawableCompat" />
+                    android:scaleType="centerCrop" />
 
                 <TextView
                     android:id="@+id/flashLightTv"
@@ -104,15 +95,14 @@
                 android:orientation="vertical">
 
                 <android.support.v7.widget.AppCompatImageView
-
+                    android:id="@+id/albumIv"
                     android:layout_width="36dp"
                     android:layout_height="36dp"
                     android:scaleType="centerCrop"
-
-                    android:src="@drawable/ic_photo"
                     android:tint="#ffffffff"
+                    app:srcCompat="@drawable/ic_photo"
 
-                    tools:ignore="VectorDrawableCompat" />
+                    />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -127,5 +117,5 @@
 
         </LinearLayout>
 
-    </LinearLayout>
+    </android.support.v7.widget.LinearLayoutCompat>
 </RelativeLayout>

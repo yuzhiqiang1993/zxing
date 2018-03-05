@@ -1,15 +1,14 @@
 package com.yzq.zxinglibrary.android;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.pm.FeatureInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.AppCompatImageView;
-import android.support.v7.widget.LinearLayoutCompat;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -39,7 +38,7 @@ import java.io.IOException;
  * @declare :扫一扫
  */
 
-public class CaptureActivity extends Activity implements SurfaceHolder.Callback, View.OnClickListener {
+public class CaptureActivity extends AppCompatActivity implements SurfaceHolder.Callback, View.OnClickListener {
 
     private static final String TAG = CaptureActivity.class.getSimpleName();
     private ZxingConfig config;
@@ -75,6 +74,11 @@ public class CaptureActivity extends Activity implements SurfaceHolder.Callback,
     }
 
 
+
+    static {
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,7 +104,7 @@ public class CaptureActivity extends Activity implements SurfaceHolder.Callback,
 
         setContentView(R.layout.activity_capture);
 
-        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+
 
 
         initView();
@@ -125,7 +129,7 @@ public class CaptureActivity extends Activity implements SurfaceHolder.Callback,
 
 
         flashLightIv = findViewById(R.id.flashLightIv);
-        flashLightTv = findViewById(R.id.flashLightTv);
+
         flashLightLayout = findViewById(R.id.flashLightLayout);
         flashLightLayout.setOnClickListener(this);
         albumLayout = findViewById(R.id.albumLayout);
