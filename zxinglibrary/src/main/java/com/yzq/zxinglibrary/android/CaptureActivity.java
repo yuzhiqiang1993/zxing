@@ -48,6 +48,7 @@ public class CaptureActivity extends AppCompatActivity implements SurfaceHolder.
     private ViewfinderView viewfinderView;
     private AppCompatImageView flashLightIv;
     private TextView flashLightTv;
+    private AppCompatImageView backIv;
     private LinearLayoutCompat flashLightLayout;
     private LinearLayoutCompat albumLayout;
     private LinearLayoutCompat bottomLayout;
@@ -76,7 +77,6 @@ public class CaptureActivity extends AppCompatActivity implements SurfaceHolder.
     }
 
 
-
     static {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
     }
@@ -88,7 +88,9 @@ public class CaptureActivity extends AppCompatActivity implements SurfaceHolder.
         // 保持Activity处于唤醒状态
         Window window = getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        window.setStatusBarColor(Color.BLACK);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            window.setStatusBarColor(Color.BLACK);
+        }
         Log.i("onCreate", "setContentView");
         /*先获取配置信息*/
         try {
@@ -103,9 +105,7 @@ public class CaptureActivity extends AppCompatActivity implements SurfaceHolder.
         }
 
 
-
         setContentView(R.layout.activity_capture);
-        
 
 
         initView();
@@ -128,9 +128,11 @@ public class CaptureActivity extends AppCompatActivity implements SurfaceHolder.
         viewfinderView = findViewById(R.id.viewfinder_view);
         viewfinderView.setOnClickListener(this);
 
+        backIv = findViewById(R.id.backIv);
+        backIv.setOnClickListener(this);
 
-        flashLightIv = (AppCompatImageView) findViewById(R.id.flashLightIv);
-        flashLightTv=(TextView) findViewById(R.id.flashLightTv);
+        flashLightIv = findViewById(R.id.flashLightIv);
+        flashLightTv = findViewById(R.id.flashLightTv);
 
         flashLightLayout = findViewById(R.id.flashLightLayout);
         flashLightLayout.setOnClickListener(this);
@@ -325,7 +327,10 @@ public class CaptureActivity extends AppCompatActivity implements SurfaceHolder.
             intent.setAction(Intent.ACTION_PICK);
             intent.setType("image/*");
             startActivityForResult(intent, Constant.REQUEST_IMAGE);
+        } else if (id == R.id.backIv) {
+            finish();
         }
+
 
     }
 
