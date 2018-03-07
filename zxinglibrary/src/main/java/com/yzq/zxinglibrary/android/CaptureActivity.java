@@ -4,6 +4,8 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.pm.FeatureInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -86,7 +88,7 @@ public class CaptureActivity extends AppCompatActivity implements SurfaceHolder.
         // 保持Activity处于唤醒状态
         Window window = getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-
+        window.setStatusBarColor(Color.BLACK);
         Log.i("onCreate", "setContentView");
         /*先获取配置信息*/
         try {
@@ -103,8 +105,7 @@ public class CaptureActivity extends AppCompatActivity implements SurfaceHolder.
 
 
         setContentView(R.layout.activity_capture);
-
-
+        
 
 
         initView();
