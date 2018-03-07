@@ -51,7 +51,7 @@ allprojects {
     compile 'com.android.support:appcompat-v7:26.1.0'
     
     /*添加依赖  android studio3.0及以上版本可用implementation代替compile*/
-    compile 'com.github.yuzhiqiang1993:zxing:2.1.1'
+    compile 'com.github.yuzhiqiang1993:zxing:2.1.2'
 }
 
  
