@@ -40,7 +40,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:text="扫一扫"
-                android:textColor="#ffffffff"
+                android:textColor="#ffffff"
                 android:textSize="20sp" />
 
 
@@ -84,8 +84,7 @@
                     android:layout_marginTop="5dp"
                     android:gravity="center"
                     android:text="打开闪光灯"
-
-                    android:textColor="@color/result_text" />
+                    android:textColor="#ffffff" />
 
             </android.support.v7.widget.LinearLayoutCompat>
 
@@ -111,7 +110,7 @@
                     android:gravity="center"
                     android:text="相册"
 
-                    android:textColor="@color/result_text" />
+                    android:textColor="#ffffff"/>
             </android.support.v7.widget.LinearLayoutCompat>
 
 

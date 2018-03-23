@@ -91,7 +91,7 @@ public class CaptureActivity extends AppCompatActivity implements SurfaceHolder.
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             window.setStatusBarColor(Color.BLACK);
         }
-        Log.i("onCreate", "setContentView");
+
         /*先获取配置信息*/
         try {
             config = (ZxingConfig) getIntent().getExtras().get(Constant.INTENT_ZXING_CONFIG);

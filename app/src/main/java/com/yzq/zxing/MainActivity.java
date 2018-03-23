@@ -54,18 +54,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void initView() {
         /*扫描按钮*/
-        scanBtn = (Button) findViewById(R.id.scanBtn);
+        scanBtn =  findViewById(R.id.scanBtn);
         scanBtn.setOnClickListener(this);
         /*扫描结果*/
-        result = (TextView) findViewById(R.id.result);
+        result =  findViewById(R.id.result);
 
         /*要生成二维码的输入框*/
-        contentEt = (EditText) findViewById(R.id.contentEt);
+        contentEt =  findViewById(R.id.contentEt);
         /*生成按钮*/
-        encodeBtn = (Button) findViewById(R.id.encodeBtn);
+        encodeBtn =  findViewById(R.id.encodeBtn);
         encodeBtn.setOnClickListener(this);
         /*生成的图片*/
-        contentIv = (ImageView) findViewById(R.id.contentIv);
+        contentIv = findViewById(R.id.contentIv);
 
         toolbar=findViewById(R.id.toolbar);
 
