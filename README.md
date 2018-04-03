@@ -57,12 +57,33 @@ allprojects {
  
  ```
  
- 2.申请权限，需要申请的权限有：
+ 2.权限
  --------------
+ 
+ demo使用的权限申请是严大的一个开源库，地址：https://github.com/yanzhenjie/AndPermission 感谢严大！
+ 
+ 需要申请的权限有：
+ 
    ```
    Manifest.permission.CAMERA
    Manifest.permission.READ_EXTERNAL_STORAGE
+  
    ```
+   
+   
+   项目中用到的所有权限
+   
+   ```
+   <uses-permission android:name="android.permission.CAMERA" />
+   <uses-permission android:name="android.permission.FLASHLIGHT" />
+   <uses-feature android:name="android.hardware.camera" />
+   <uses-feature android:name="android.hardware.camera.autofocus" />
+   <uses-permission android:name="android.permission.VIBRATE" />
+   <uses-permission android:name="android.permission.WAKE_LOCK" />
+   <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+   <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+   ```
+
  
 3.跳转到扫一扫界面：
 --------------
