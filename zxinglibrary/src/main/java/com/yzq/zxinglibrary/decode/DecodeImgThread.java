@@ -29,6 +29,7 @@ public class DecodeImgThread extends Thread {
     private String imgPath;
     /*回调*/
     private DecodeImgCallback callback;
+    private Bitmap scanBitmap;
 
 
     public DecodeImgThread(String imgPath, DecodeImgCallback callback) {
@@ -50,7 +51,10 @@ public class DecodeImgThread extends Thread {
          */
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true; // 先获取原大小
-        Bitmap scanBitmap = BitmapFactory.decodeFile(imgPath, options);
+
+        scanBitmap = BitmapFactory.decodeFile(imgPath, options);
+
+
         options.inJustDecodeBounds = false; // 获取新的大小
         int sampleSize = (int) (options.outHeight / (float) 400);
         if (sampleSize <= 0)
