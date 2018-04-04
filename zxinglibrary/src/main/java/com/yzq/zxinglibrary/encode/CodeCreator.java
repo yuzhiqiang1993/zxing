@@ -15,8 +15,7 @@ import java.util.Hashtable;
 
 public class CodeCreator {
 
-    /*logo*/
-    private static Bitmap logoBitmap;
+
 
     /*生成二维码*/
     public static Bitmap createQRCode(String content, int w, int h,Bitmap logo) throws WriterException {
@@ -30,6 +29,8 @@ public class CodeCreator {
         int offsetY = h / 2;
 
         /*生成logo*/
+        Bitmap logoBitmap=null;
+
         if (logo!=null){
             Matrix matrix = new Matrix();
             float scaleFactor = Math.min(w * 1.0f / 5 / logo.getWidth(), h * 1.0f / 5 /logo.getHeight());
