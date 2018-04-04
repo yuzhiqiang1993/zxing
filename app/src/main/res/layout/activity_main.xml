@@ -41,10 +41,25 @@
         android:layout_height="56dp" />
 
     <Button
+        android:id="@+id/encodeBtnWithLogo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="生成带logo的二维码" />
+
+
+    <ImageView
+        android:id="@+id/contentIvWithLogo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+
+        />
+
+    <Button
         android:id="@+id/encodeBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="生成二维码" />
+        android:text="生成不带logo的二维码" />
 
 
     <ImageView
@@ -54,5 +69,8 @@
         android:layout_gravity="center"
 
         />
+
+
+
 
 </LinearLayout>

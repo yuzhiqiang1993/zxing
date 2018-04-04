@@ -1,8 +1,8 @@
 package com.yzq.zxing;
 
-import android.Manifest;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -43,6 +43,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ImageView contentIv;
     private Toolbar toolbar;
     private int REQUEST_CODE_SCAN = 111;
+    /**
+     * 生成带logo的二维码
+     */
+    private Button encodeBtnWithLogo;
+    private ImageView contentIvWithLogo;
+    private String contentEtString;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,10 +80,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        result = (TextView) findViewById(R.id.result);
+        scanBtn = (Button) findViewById(R.id.scanBtn);
+        contentEt = (EditText) findViewById(R.id.contentEt);
+        encodeBtnWithLogo = (Button) findViewById(R.id.encodeBtnWithLogo);
+        encodeBtnWithLogo.setOnClickListener(this);
+        contentIvWithLogo = (ImageView) findViewById(R.id.contentIvWithLogo);
+        encodeBtn = (Button) findViewById(R.id.encodeBtn);
+        contentIv = (ImageView) findViewById(R.id.contentIv);
     }
 
     @Override
     public void onClick(View v) {
+
+        Bitmap bitmap = null;
         switch (v.getId()) {
             case R.id.scanBtn:
 
@@ -116,20 +133,43 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 break;
             case R.id.encodeBtn:
-                String contentEtString = contentEt.getText().toString().trim();
+                contentEtString = contentEt.getText().toString().trim();
                 if (TextUtils.isEmpty(contentEtString)) {
-                    Toast.makeText(this, "contentEtString不能为空", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "请输入要生成二维码图片的字符串", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                Bitmap bitmap = null;
+
                 try {
                     bitmap = CodeCreator.createQRCode(contentEtString, 400, 400, null);
+
                 } catch (WriterException e) {
                     e.printStackTrace();
                 }
                 if (bitmap != null) {
                     contentIv.setImageBitmap(bitmap);
+                }
+
+                break;
+
+            case R.id.encodeBtnWithLogo:
+
+                contentEtString = contentEt.getText().toString().trim();
+                if (TextUtils.isEmpty(contentEtString)) {
+                    Toast.makeText(this, "请输入要生成二维码图片的字符串", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                bitmap = null;
+                try {
+                    Bitmap logo = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
+                    bitmap = CodeCreator.createQRCode(contentEtString, 400, 400, logo);
+
+                } catch (WriterException e) {
+                    e.printStackTrace();
+                }
+                if (bitmap != null) {
+                    contentIvWithLogo.setImageBitmap(bitmap);
                 }
 
                 break;
