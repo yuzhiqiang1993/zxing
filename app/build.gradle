@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 27
-    buildToolsVersion '26.0.2'
+    buildToolsVersion '27.0.3'
     defaultConfig {
         applicationId "com.yzq.zxing"
         minSdkVersion 16
@@ -24,9 +24,9 @@ dependencies {
     implementation "com.android.support:appcompat-v7:$support_version"
     implementation "com.android.support:design:$support_version"
     implementation "com.android.support:support-vector-drawable:$support_version"
-    implementation "com.yanzhenjie:permission:1.1.0"
-    implementation project(':zxinglibrary')
-    //implementation 'com.github.yuzhiqiang1993:zxing:2.1.3'
+    implementation 'com.yanzhenjie:permission:2.0.0-rc4'
+    //implementation project(':zxinglibrary')
+    implementation 'com.github.yuzhiqiang1993:zxing:2.1.6'
 
 
 }
