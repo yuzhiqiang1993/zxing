@@ -4,7 +4,7 @@ buildscript {
 
 
     ext{
-        support_version='27.0.2'
+        support_version='27.1.0'
     }
     repositories {
         google()
@@ -13,9 +13,9 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:3.1.0'
 
-        classpath 'com.github.dcendents:android-maven-gradle-plugin:2.0'
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:2.0' // Add this line
     }
 }
 
