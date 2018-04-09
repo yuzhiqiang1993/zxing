@@ -76,7 +76,7 @@ public final class DecodeHandler extends Handler {
             for (int x = 0; x < width; x++)
                 rotatedData[x * height + height - y - 1] = data[x + y * width];
         }
-        int tmp = width; // Here we are swapping, that's the difference to #11
+        int tmp = width;
         width = height;
         height = tmp;
         data = rotatedData;
