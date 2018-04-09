@@ -146,7 +146,7 @@ public class CaptureActivity extends AppCompatActivity implements SurfaceHolder.
         switchVisibility(albumLayout, config.isShowAlbum());
 
 
-            /*有闪光灯就显示手电筒按钮  否则不显示*/
+        /*有闪光灯就显示手电筒按钮  否则不显示*/
         if (isSupportCameraLedFlash(getPackageManager())) {
             flashLightLayout.setVisibility(View.VISIBLE);
         } else {

@@ -54,24 +54,16 @@ public final class BeepManager implements MediaPlayer.OnCompletionListener,
     }
 
 
-    public boolean isPlayBeep() {
-        return playBeep;
-    }
-
     public void setPlayBeep(boolean playBeep) {
         this.playBeep = playBeep;
     }
 
-    public boolean isVibrate() {
-        return vibrate;
-    }
 
     public void setVibrate(boolean vibrate) {
         this.vibrate = vibrate;
     }
 
     public synchronized void updatePrefs() {
-
 
 
         if (playBeep && mediaPlayer == null) {
