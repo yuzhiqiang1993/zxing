@@ -3,9 +3,7 @@
 buildscript {
 
 
-    ext{
-        support_version='27.0.2'
-    }
+
     repositories {
         google()
         jcenter()
@@ -25,6 +23,10 @@ allprojects {
         jcenter()
         maven { url "https://jitpack.io" }
     }
+}
+
+ext{
+    support_version='27.1.0'
 }
 
 task clean(type: Delete) {
