@@ -22,8 +22,17 @@ public class ZxingConfig implements Serializable {
     private boolean isShowFlashLight = true;
     /*是否显示相册按钮*/
     private boolean isShowAlbum = true;
+    /*是否解析条形码*/
+    private boolean isDecodeBarCode=true;
 
 
+    public boolean isDecodeBarCode() {
+        return isDecodeBarCode;
+    }
+
+    public void setDecodeBarCode(boolean decodeBarCode) {
+        isDecodeBarCode = decodeBarCode;
+    }
 
     public boolean isPlayBeep() {
         return isPlayBeep;

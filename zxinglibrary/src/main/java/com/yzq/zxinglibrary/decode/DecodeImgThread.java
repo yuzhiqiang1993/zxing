@@ -57,8 +57,9 @@ public class DecodeImgThread extends Thread {
 
         options.inJustDecodeBounds = false; // 获取新的大小
         int sampleSize = (int) (options.outHeight / (float) 400);
-        if (sampleSize <= 0)
+        if (sampleSize <= 0) {
             sampleSize = 1;
+        }
         options.inSampleSize = sampleSize;
         scanBitmap = BitmapFactory.decodeFile(imgPath, options);
 

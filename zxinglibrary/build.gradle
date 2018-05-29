@@ -4,17 +4,14 @@ apply plugin: 'com.github.dcendents.android-maven'
 group = 'com.github.yuzhiqiang1993'
 
 android {
-    compileSdkVersion 27
-    buildToolsVersion '27.0.3'
-
+    compileSdkVersion compile_sdk_version
 
     defaultConfig {
-        minSdkVersion 16
-        targetSdkVersion 27
-        versionCode 1
-        versionName "1.0"
+        minSdkVersion min_sdk_version
+        targetSdkVersion target_sdk_version
+        versionCode version_code
+        versionName version_name
         vectorDrawables.useSupportLibrary = true
-
     }
 
 
@@ -23,10 +20,10 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     api files('libs/core-3.3.0.jar')
-    implementation "com.android.support:appcompat-v7:$support_version"
-    implementation "com.android.support:design:$support_version"
-    implementation "com.android.support:support-v4:$support_version"
-    implementation "com.android.support:support-vector-drawable:$support_version"
+    implementation "com.android.support:appcompat-v7:$android_support"
+    implementation "com.android.support:design:$android_support"
+    implementation "com.android.support:support-v4:$android_support"
+    implementation "com.android.support:support-vector-drawable:$android_support"
 
 }
 

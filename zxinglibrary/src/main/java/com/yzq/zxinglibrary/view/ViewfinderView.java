@@ -11,8 +11,8 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.support.annotation.Nullable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 
 import com.google.zxing.ResultPoint;
@@ -39,10 +39,6 @@ public final class ViewfinderView extends View {
     private final int statusColor; // 提示文字颜色
 
 
-
-
-
-
     private List<ResultPoint> possibleResultPoints;
     private List<ResultPoint> lastPossibleResultPoints;
     // 扫描线移动的y
@@ -55,10 +51,18 @@ public final class ViewfinderView extends View {
     Bitmap scanLight;
 
 
+    public ViewfinderView(Context context) {
+        this(context, null);
+    }
+
     public ViewfinderView(Context context, AttributeSet attrs) {
-        super(context, attrs);
+        this(context, attrs, 0);
 
 
+    }
+
+    public ViewfinderView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
 
         paint = new Paint(Paint.ANTI_ALIAS_FLAG);
         Resources resources = getResources();
@@ -69,10 +73,10 @@ public final class ViewfinderView extends View {
         statusColor = resources.getColor(R.color.status_text);
 
 
-
         possibleResultPoints = new ArrayList<ResultPoint>(10);
         lastPossibleResultPoints = null;
         scanLight = BitmapFactory.decodeResource(resources, R.drawable.scan_light);
+
     }
 
     public void setCameraManager(CameraManager cameraManager) {
@@ -203,7 +207,7 @@ public final class ViewfinderView extends View {
 //            corWidth = 15;
 //        }
 
-        corWidth=corWidth>15?15:corWidth;
+        corWidth = corWidth > 15 ? 15 : corWidth;
 
 
         /*角在线外*/
@@ -247,7 +251,7 @@ public final class ViewfinderView extends View {
 
         int statusTextSize;
 
-         /*低分辨率处理*/
+        /*低分辨率处理*/
         if (width >= 480 && width <= 600) {
             statusTextSize = 22;
         } else if (width > 600 && width <= 720) {

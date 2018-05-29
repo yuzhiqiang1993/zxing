@@ -3,13 +3,27 @@
 buildscript {
 
 
+    ext {
+        /*sdk and version*/
+        compile_sdk_version = 27
+        build_tools_version = '27.1.1'
+        min_sdk_version = 16
+        target_sdk_version = 27
+        constraint_version = '1.1.0'
+        version_code = 1_00_00
+        version_name = '1.0.0'// E.g 1.9.72 == 1,09,72
+
+        /*support*/
+        android_support = '27.1.1'
+
+    }
 
     repositories {
         google()
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.1.0'
+        classpath 'com.android.tools.build:gradle:3.1.2'
 
         classpath 'com.github.dcendents:android-maven-gradle-plugin:2.0'
         // NOTE: Do not place your application dependencies here; they belong
@@ -25,9 +39,6 @@ allprojects {
     }
 }
 
-ext{
-    support_version='27.1.0'
-}
 
 task clean(type: Delete) {
     delete rootProject.buildDir

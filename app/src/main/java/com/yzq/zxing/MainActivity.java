@@ -113,6 +113,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 ZxingConfig config = new ZxingConfig();
                                 config.setPlayBeep(true);
                                 config.setShake(true);
+                                config.setDecodeBarCode(false);
                                 intent.putExtra(Constant.INTENT_ZXING_CONFIG, config);
 
                                 startActivityForResult(intent, REQUEST_CODE_SCAN);

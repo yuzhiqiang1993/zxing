@@ -43,7 +43,7 @@ import java.io.IOException;
 public class CaptureActivity extends AppCompatActivity implements SurfaceHolder.Callback, View.OnClickListener {
 
     private static final String TAG = CaptureActivity.class.getSimpleName();
-    private ZxingConfig config;
+    public ZxingConfig config;
     private SurfaceView previewView;
     private ViewfinderView viewfinderView;
     private AppCompatImageView flashLightIv;
@@ -103,7 +103,7 @@ public class CaptureActivity extends AppCompatActivity implements SurfaceHolder.
         if (config == null) {
             config = new ZxingConfig();
         }
-
+        
 
         setContentView(R.layout.activity_capture);
 

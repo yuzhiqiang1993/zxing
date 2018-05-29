@@ -1,14 +1,14 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 27
-    buildToolsVersion '27.0.3'
+    compileSdkVersion compile_sdk_version
+
     defaultConfig {
         applicationId "com.yzq.zxing"
-        minSdkVersion 16
-        targetSdkVersion 25
-        versionCode 1
-        versionName "1.0"
+        minSdkVersion min_sdk_version
+        targetSdkVersion target_sdk_version
+        versionCode version_code
+        versionName version_name
         vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
@@ -21,11 +21,11 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation "com.android.support:appcompat-v7:$support_version"
-    implementation "com.android.support:design:$support_version"
-    implementation "com.android.support:support-vector-drawable:$support_version"
+    implementation "com.android.support:appcompat-v7:$android_support"
+    implementation "com.android.support:design:$android_support"
+    implementation "com.android.support:support-vector-drawable:$android_support"
     implementation 'com.yanzhenjie:permission:2.0.0-rc4'
-    //implementation project(':zxinglibrary')
+    implementation project(':zxinglibrary')
 
-    implementation 'com.github.yuzhiqiang1993:zxing:2.1.6'
+    // implementation 'com.github.yuzhiqiang1993:zxing:2.1.6'
 }
