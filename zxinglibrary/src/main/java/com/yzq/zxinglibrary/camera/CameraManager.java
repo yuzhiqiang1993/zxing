@@ -27,6 +27,7 @@ import android.view.SurfaceHolder;
 
 import com.google.zxing.PlanarYUVLuminanceSource;
 import com.yzq.zxinglibrary.android.CaptureActivityHandler;
+import com.yzq.zxinglibrary.bean.ZxingConfig;
 import com.yzq.zxinglibrary.common.Constant;
 
 import java.io.IOException;
@@ -46,6 +47,7 @@ public final class CameraManager {
 
     private final Context context;
     private final CameraConfigurationManager configManager;
+    private ZxingConfig config;
     private Camera camera;
     private AutoFocusManager autoFocusManager;
     private Rect framingRect;
@@ -62,17 +64,18 @@ public final class CameraManager {
      */
     private final PreviewCallback previewCallback;
 
-    public CameraManager(Context context) {
+    public CameraManager(Context context, ZxingConfig config) {
         this.context = context;
         this.configManager = new CameraConfigurationManager(context);
         previewCallback = new PreviewCallback(configManager);
+        this.config = config;
     }
 
-    public static void init(Context context) {
-        if (cameraManager == null) {
-            cameraManager = new CameraManager(context);
-        }
-    }
+//    public static void init(Context context) {
+//        if (cameraManager == null) {
+//            cameraManager = new CameraManager(context, null);
+//        }
+//    }
 
 
     /**
@@ -175,7 +178,6 @@ public final class CameraManager {
             parameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
 
             msg.what = Constant.FLASH_CLOSE;
-
 
 
         } else {
@@ -348,11 +350,25 @@ public final class CameraManager {
             return null;
         }
         // Go ahead and assume it's YUV rather than die.
-//        return new PlanarYUVLuminanceSource(data, width, height, rect.left,
-//                rect.top, rect.width(), rect.height(), false);
-        return new PlanarYUVLuminanceSource(data, width, height, 0,
-               0, width, height, false);
+
+
+        if (config == null) {
+            config = new ZxingConfig();
+        }
+
+        if (config.isFullScreenScan()) {
+            return new PlanarYUVLuminanceSource(data, width, height, 0,
+                    0, width, height, false);
+        } else {
+            return new PlanarYUVLuminanceSource(data, width, height, rect.left,
+                    rect.top, rect.width(), rect.height(), false);
+
+
+        }
+
+
     }
+
     public static CameraManager get() {
         return cameraManager;
     }

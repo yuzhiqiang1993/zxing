@@ -17,6 +17,7 @@ import android.view.View;
 
 import com.google.zxing.ResultPoint;
 import com.yzq.zxinglibrary.R;
+import com.yzq.zxinglibrary.bean.ZxingConfig;
 import com.yzq.zxinglibrary.camera.CameraManager;
 
 import java.util.ArrayList;
@@ -58,6 +59,12 @@ public final class ViewfinderView extends View {
     public ViewfinderView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
 
+
+    }
+
+
+
+    public void setZxingConfig(ZxingConfig config) {
 
     }
 
@@ -125,8 +132,9 @@ public final class ViewfinderView extends View {
 
             /*绘制提示文字*/
             //  drawStatusText(canvas, frame, width);
+
             /*绘制扫描线*/
-            drawScanLight(canvas, frame);
+           drawScanLight(canvas, frame);
 
             float scaleX = frame.width() / (float) previewFrame.width();
             float scaleY = frame.height() / (float) previewFrame.height();
@@ -186,11 +194,11 @@ public final class ViewfinderView extends View {
 
 
         /*扫描框的边框线*/
-//        paint.setColor(Color.WHITE);
-//        paint.setStrokeWidth(2);
-//        paint.setStyle(Paint.Style.STROKE);
-//
-//        canvas.drawRect(frame, paint);
+        paint.setColor(Color.WHITE);
+        paint.setStrokeWidth(2);
+        paint.setStyle(Paint.Style.STROKE);
+
+        canvas.drawRect(frame, paint);
 
         /*扫描框的四个角*/
         paint.setColor(Color.BLUE);
@@ -295,6 +303,8 @@ public final class ViewfinderView extends View {
         Rect scanRect = new Rect(frame.left, scanLineTop, frame.right,
                 scanLineTop + scanLightHeight);
         canvas.drawBitmap(scanLight, null, scanRect, paint);
+
+
     }
 
     public void drawViewfinder() {

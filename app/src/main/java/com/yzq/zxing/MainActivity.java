@@ -114,6 +114,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 config.setPlayBeep(true);
                                 config.setShake(true);
                                 config.setDecodeBarCode(false);
+                                config.setFullScreenScan(true);
                                 intent.putExtra(Constant.INTENT_ZXING_CONFIG, config);
 
                                 startActivityForResult(intent, REQUEST_CODE_SCAN);

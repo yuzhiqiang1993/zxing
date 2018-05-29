@@ -127,6 +127,7 @@ public class CaptureActivity extends AppCompatActivity implements SurfaceHolder.
 
         viewfinderView = findViewById(R.id.viewfinder_view);
         viewfinderView.setOnClickListener(this);
+        viewfinderView.setZxingConfig(config);
 
         backIv = findViewById(R.id.backIv);
         backIv.setOnClickListener(this);
@@ -220,7 +221,7 @@ public class CaptureActivity extends AppCompatActivity implements SurfaceHolder.
     protected void onResume() {
         super.onResume();
 
-        cameraManager = new CameraManager(getApplication());
+        cameraManager = new CameraManager(getApplication(),config);
 
         viewfinderView.setCameraManager(cameraManager);
         handler = null;

@@ -15,7 +15,7 @@ public class ZxingConfig implements Serializable {
     /*是否播放声音*/
     private boolean isPlayBeep = true;
     /*是否震动*/
-    private boolean isShake = false;
+    private boolean isShake = true;
     /*是否显示下方的其他功能布局*/
     private boolean isShowbottomLayout = true;
     /*是否显示闪光灯按钮*/
@@ -24,7 +24,17 @@ public class ZxingConfig implements Serializable {
     private boolean isShowAlbum = true;
     /*是否解析条形码*/
     private boolean isDecodeBarCode=true;
+    /*是否全屏扫描*/
+    private boolean isFullScreenScan=true;
 
+
+    public boolean isFullScreenScan() {
+        return isFullScreenScan;
+    }
+
+    public void setFullScreenScan(boolean fullScreenScan) {
+        isFullScreenScan = fullScreenScan;
+    }
 
     public boolean isDecodeBarCode() {
         return isDecodeBarCode;
