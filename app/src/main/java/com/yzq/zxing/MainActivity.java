@@ -105,15 +105,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             public void onAction(List<String> permissions) {
                                 Intent intent = new Intent(MainActivity.this, CaptureActivity.class);
 
-                                /*ZxingConfig是配置类  可以设置是否显示底部布局，闪光灯，相册，是否播放提示音  震动等动能
+                                /*ZxingConfig是配置类  可以设置是否显示底部布局，闪光灯，相册，是否播放提示音  震动 扫描框颜色等动能
                                  * 也可以不传这个参数
-                                 * 不传的话  默认都为默认不震动  其他都为true
+                                 *
                                  * */
 
                                 ZxingConfig config = new ZxingConfig();
                                 config.setPlayBeep(true);
                                 config.setShake(true);
                                 config.setDecodeBarCode(false);
+                                config.setReactColor(R.color.colorAccent);
+                                //config.setFrameLineColor(R.color.colorAccent);
                                 config.setFullScreenScan(true);
                                 intent.putExtra(Constant.INTENT_ZXING_CONFIG, config);
 

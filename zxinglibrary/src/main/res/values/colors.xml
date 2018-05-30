@@ -4,14 +4,15 @@
     <!--zxing-->
     <color name="contents_text">#000000</color>
     <color name="encode_view">#ffffff</color>
-    <color name="possible_result_points">#ffbd21</color> <!-- Android standard ICS color -->
+    <color name="possible_result_points">#ffbd21</color>
     <color name="result_minor_text">#c0c0c0</color>
-    <color name="result_points">#99cc00</color> <!-- Android standard ICS color -->
+    <color name="result_points">#99cc00</color>
     <color name="result_text">#ffffff</color>
     <color name="result_view">#000000</color>
     <color name="status_text">#ffffff</color>
-    <color name="transparent">#00000000</color>
-    <color name="viewfinder_laser">#cc0000</color> <!-- Android standard ICS color -->
     <color name="viewfinder_mask">#50000000</color>
+    <color name="react">#63B8FF</color>
+    <color name="scanLineColor">#63B8FF</color>
+
 
 </resources>

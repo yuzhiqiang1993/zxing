@@ -126,8 +126,8 @@ public class CaptureActivity extends AppCompatActivity implements SurfaceHolder.
         previewView.setOnClickListener(this);
 
         viewfinderView = findViewById(R.id.viewfinder_view);
-        viewfinderView.setOnClickListener(this);
         viewfinderView.setZxingConfig(config);
+
 
         backIv = findViewById(R.id.backIv);
         backIv.setOnClickListener(this);

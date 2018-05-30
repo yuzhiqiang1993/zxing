@@ -1,5 +1,9 @@
 package com.yzq.zxinglibrary.bean;
 
+import android.support.annotation.ColorRes;
+
+import com.yzq.zxinglibrary.R;
+
 import java.io.Serializable;
 
 /**
@@ -23,10 +27,57 @@ public class ZxingConfig implements Serializable {
     /*是否显示相册按钮*/
     private boolean isShowAlbum = true;
     /*是否解析条形码*/
-    private boolean isDecodeBarCode=true;
+    private boolean isDecodeBarCode = true;
     /*是否全屏扫描*/
-    private boolean isFullScreenScan=true;
+    private boolean isFullScreenScan = true;
 
+    /*四个角的颜色*/
+    @ColorRes
+    private int reactColor = R.color.react;
+    /*扫描框颜色*/
+    @ColorRes
+    private int frameLineColor = -1;
+
+//    /*扫描线颜色*/
+//    @ColorRes
+//    private int scanLineColor = R.color.scanLineColor;
+//
+//    /*遮罩颜色*/
+//    @ColorRes
+//    private int maskViewColor = R.color.viewfinder_mask;
+
+
+    public int getFrameLineColor() {
+        return frameLineColor;
+    }
+
+    public void setFrameLineColor(@ColorRes int frameLineColor) {
+        this.frameLineColor = frameLineColor;
+    }
+
+//    public int getScanLineColor() {
+//        return scanLineColor;
+//    }
+//
+//    public void setScanLineColor(@ColorRes int scanLineColor) {
+//        this.scanLineColor = scanLineColor;
+//    }
+//
+//    public int getMaskViewColor() {
+//        return maskViewColor;
+//    }
+//
+//    public void setMaskViewColor(@ColorRes int maskViewColor) {
+//        this.maskViewColor = maskViewColor;
+//    }
+
+    public int getReactColor() {
+        return reactColor;
+    }
+
+    public void setReactColor(@ColorRes int reactColor) {
+        this.reactColor = reactColor;
+    }
 
     public boolean isFullScreenScan() {
         return isFullScreenScan;
