@@ -90,6 +90,14 @@ allprojects {
 3.跳转到扫一扫界面：
 --------------
 
+1.使用默认配置项，两行代码即可
+
+```
+Intent intent = new Intent(MainActivity.this, CaptureActivity.class);
+startActivityForResult(intent, REQUEST_CODE_SCAN);
+```
+
+2.自定义配置项
 ```
 Intent intent = new Intent(MainActivity.this, CaptureActivity.class);
 /*ZxingConfig是配置类
