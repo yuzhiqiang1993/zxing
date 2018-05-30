@@ -52,8 +52,8 @@ allprojects {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:26.1.0'
     
-    /*添加依赖  android studio3.0及以上版本可用implementation代替compile*/
-    compile 'com.github.yuzhiqiang1993:zxing:2.1.8'
+    /*添加依赖*/
+    implementation 'com.github.yuzhiqiang1993:zxing:2.1.8'
 }
 
  
