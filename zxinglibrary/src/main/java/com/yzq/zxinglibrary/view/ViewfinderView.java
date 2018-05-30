@@ -39,8 +39,7 @@ public final class ViewfinderView extends View {
     private int resultPointColor; // 特征点的颜色
     private int statusColor; // 提示文字颜色
     private int reactColor;//四个角的颜色
-    private int scanLineColor;//扫描线的颜色
-    private int frameLineColor = -1;//扫描框边线颜色
+
 
 
     private List<ResultPoint> possibleResultPoints;
@@ -71,16 +70,7 @@ public final class ViewfinderView extends View {
     public void setZxingConfig(ZxingConfig config) {
 
         this.config = config;
-
-        // maskColor = ContextCompat.getColor(getContext(), config.getMaskViewColor());
         reactColor = ContextCompat.getColor(getContext(), config.getReactColor());
-        //  scanLineColor = ContextCompat.getColor(getContext(), config.getScanLineColor());
-
-        if (config.getFrameLineColor() != -1) {
-            frameLineColor = ContextCompat.getColor(getContext(), config.getFrameLineColor());
-        }
-
-
     }
 
 
@@ -90,16 +80,10 @@ public final class ViewfinderView extends View {
 
         paint = new Paint(Paint.ANTI_ALIAS_FLAG);
         Resources resources = getResources();
-
         maskColor = ContextCompat.getColor(getContext(), R.color.viewfinder_mask);
-        //resources.getColor(R.color.viewfinder_mask);
         resultColor = ContextCompat.getColor(getContext(), R.color.result_view);
-        //  resources.getColor(R.color.result_view);
         resultPointColor = ContextCompat.getColor(getContext(), R.color.possible_result_points);
-        //resources.getColor(R.color.possible_result_points);
         statusColor = ContextCompat.getColor(getContext(), R.color.status_text);
-        //resources.getColor(R.color.status_text);
-
 
         possibleResultPoints = new ArrayList<ResultPoint>(10);
         lastPossibleResultPoints = null;
@@ -217,12 +201,11 @@ public final class ViewfinderView extends View {
         /*扫描框的边框线*/
 
 
-        if (frameLineColor != -1) {
-            paint.setColor(frameLineColor);
+        if (config.getFrameLineColor() != -1) {
+            paint.setColor(ContextCompat.getColor(getContext(),config.getFrameLineColor()));
             paint.setStrokeWidth(2);
             paint.setStyle(Paint.Style.STROKE);
             canvas.drawRect(frame, paint);
-
 
         }
 
