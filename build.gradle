@@ -10,8 +10,8 @@ buildscript {
         min_sdk_version = 16
         target_sdk_version = 27
         constraint_version = '1.1.0'
-        version_code = 100
-        version_name = '1.0.0'
+        version_code = 219
+        version_name = '2.1.9'
 
         /*support*/
         android_support = '27.1.1'
@@ -32,6 +32,8 @@ buildscript {
 }
 
 allprojects {
+
+    group "yuZhiQiang"
     repositories {
         google()
         jcenter()
