@@ -362,8 +362,6 @@ public final class CameraManager {
         } else {
             return new PlanarYUVLuminanceSource(data, width, height, rect.left,
                     rect.top, rect.width(), rect.height(), false);
-
-
         }
 
 

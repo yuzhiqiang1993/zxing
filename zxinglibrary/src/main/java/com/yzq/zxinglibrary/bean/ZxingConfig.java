@@ -38,6 +38,7 @@ public class ZxingConfig implements Serializable {
     @ColorRes
     private int frameLineColor = -1;
 
+
 //    /*扫描线颜色*/
 //    @ColorRes
 //    private int scanLineColor = R.color.scanLineColor;
