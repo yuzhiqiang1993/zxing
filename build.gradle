@@ -10,11 +10,19 @@ buildscript {
         min_sdk_version = 16
         target_sdk_version = 27
         constraint_version = '1.1.0'
-        version_code = 219
-        version_name = '2.1.9'
+        version_code = 220
+        version_name = '2.2.0'
 
         /*support*/
         android_support = '27.1.1'
+
+
+        signConfigs = [
+                storeFilePath: "zxing.jks",
+                storePwd     : "123456",
+                keyAlias     : "zxingyzq",
+                keypwd       : "123456"
+        ]
 
     }
 
