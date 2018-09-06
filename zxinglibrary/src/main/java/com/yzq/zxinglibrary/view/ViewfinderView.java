@@ -2,19 +2,24 @@
 package com.yzq.zxinglibrary.view;
 
 
+import android.animation.Animator;
+import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.DecelerateInterpolator;
 
 import com.google.zxing.ResultPoint;
 import com.yzq.zxinglibrary.R;
@@ -31,10 +36,9 @@ public final class ViewfinderView extends View {
     private static final int CURRENT_POINT_OPACITY = 0xA0;
     private static final int MAX_RESULT_POINTS = 20;
     private static final int POINT_SIZE = 6;
-    private final View scanLineView;
 
     private CameraManager cameraManager;
-    private final Paint paint;
+    private Paint paint,scanLinePaint;
     private Bitmap resultBitmap;
     private int maskColor; // 取景框外的背景颜色
     private int resultColor;// result Bitmap的颜色
@@ -47,13 +51,10 @@ public final class ViewfinderView extends View {
     private List<ResultPoint> lastPossibleResultPoints;
     // 扫描线移动的y
     private int scanLineTop;
-    // 扫描线移动速度
-    private int SCAN_VELOCITY = 20;
-    //扫描线高度
-    private int scanLightHeight = 20;
-    // 扫描线
-    Bitmap scanLight;
+
     private ZxingConfig config;
+    private ValueAnimator valueAnimator;
+    private Rect frame;
 
 
     public ViewfinderView(Context context) {
@@ -69,7 +70,6 @@ public final class ViewfinderView extends View {
 
 
     public void setZxingConfig(ZxingConfig config) {
-
         this.config = config;
         reactColor = ContextCompat.getColor(getContext(), config.getReactColor());
     }
@@ -79,8 +79,7 @@ public final class ViewfinderView extends View {
         super(context, attrs, defStyleAttr);
 
 
-        paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        Resources resources = getResources();
+
         maskColor = ContextCompat.getColor(getContext(), R.color.viewfinder_mask);
         resultColor = ContextCompat.getColor(getContext(), R.color.result_view);
         resultPointColor = ContextCompat.getColor(getContext(), R.color.possible_result_points);
@@ -88,16 +87,55 @@ public final class ViewfinderView extends View {
 
         possibleResultPoints = new ArrayList<ResultPoint>(10);
         lastPossibleResultPoints = null;
-        scanLight = BitmapFactory.decodeResource(resources, R.drawable.scan_light);
+      //  scanLight = BitmapFactory.decodeResource(resources, R.drawable.scan_light);
+
+        initPaint();
 
 
 
-        scanLineView=new View(context);
+    }
+
+    private void initPaint() {
+        paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+
+        scanLinePaint=new Paint(Paint.ANTI_ALIAS_FLAG);
+
+        scanLinePaint.setStrokeWidth(6);
+        scanLinePaint.setStyle(Paint.Style.FILL);
+        scanLinePaint.setColor(Color.WHITE);
+
+    }
+
+    private void initAnimator() {
+        Log.i("initAnimator","initAnimator");
+
+        if (valueAnimator==null){
+            valueAnimator = ValueAnimator.ofInt(frame.top, frame.bottom);
+            valueAnimator.setDuration(3000);
+            valueAnimator.setInterpolator(new DecelerateInterpolator());
+            valueAnimator.setRepeatMode(ValueAnimator.RESTART);
+            valueAnimator.setRepeatCount(ValueAnimator.INFINITE);
+            valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                @Override
+                public void onAnimationUpdate(ValueAnimator animation) {
+
+                    scanLineTop = (int) animation.getAnimatedValue();
+                 //   Log.i("scanLineTop:",scanLineTop+"");
+                    invalidate();
+
+                }
+            });
+
+            valueAnimator.start();
+        }
+
 
     }
 
     public void setCameraManager(CameraManager cameraManager) {
         this.cameraManager = cameraManager;
+
+
     }
 
     @SuppressLint("DrawAllocation")
@@ -108,25 +146,21 @@ public final class ViewfinderView extends View {
         }
 
         // frame为取景框
-        Rect frame = cameraManager.getFramingRect();
+        frame = cameraManager.getFramingRect();
         Rect previewFrame = cameraManager.getFramingRectInPreview();
         if (frame == null || previewFrame == null) {
             return;
         }
+        initAnimator();
+
         int width = canvas.getWidth();
         int height = canvas.getHeight();
-
-
-        scanLineView.setLayoutParams(new ViewGroup.LayoutParams(frame.width(),10));
-        scanLineView.setBackgroundColor(reactColor);
-
 
         /*绘制遮罩*/
         drawMaskView(canvas, frame, width, height);
 
         /*绘制取景框边框*/
         drawFrameBounds(canvas, frame);
-
 
 
         if (resultBitmap != null) {
@@ -136,12 +170,8 @@ public final class ViewfinderView extends View {
             canvas.drawBitmap(resultBitmap, null, frame, paint);
         } else {
 
-
-            /*绘制提示文字*/
-            //  drawStatusText(canvas, frame, width);
-
             /*绘制扫描线*/
-           // drawScanLight(canvas, frame);
+            drawScanLight(canvas, frame);
 
             /*绘制闪动的点*/
             drawPoint(canvas, frame, previewFrame);
@@ -224,7 +254,6 @@ public final class ViewfinderView extends View {
             paint.setStrokeWidth(2);
             paint.setStyle(Paint.Style.STROKE);
             canvas.drawRect(frame, paint);
-
         }
 
         /*扫描框的四个角*/
@@ -263,47 +292,6 @@ public final class ViewfinderView extends View {
                 + corWidth, frame.bottom + corWidth, paint);
     }
 
-    /**
-     * 绘制提示文字
-     *
-     * @param canvas
-     * @param frame
-     * @param width
-     */
-    private void drawStatusText(Canvas canvas, Rect frame, int width) {
-
-        // Log.i("绘制提示文字", "width:" + width);
-
-        String statusText1 = getResources().getString(
-                R.string.viewfinderview_status_text1);
-        String statusText2 = getResources().getString(
-                R.string.viewfinderview_status_text2);
-
-        int statusTextSize;
-
-        /*低分辨率处理*/
-        if (width >= 480 && width <= 600) {
-            statusTextSize = 22;
-        } else if (width > 600 && width <= 720) {
-            statusTextSize = 26;
-        } else {
-            statusTextSize = 45;
-        }
-
-        int statusPaddingTop = 180;
-
-        paint.setColor(statusColor);
-        paint.setTextSize(statusTextSize);
-
-        int textWidth1 = (int) paint.measureText(statusText1);
-        canvas.drawText(statusText1, (width - textWidth1) / 2, frame.top
-                - statusPaddingTop, paint);
-
-        int textWidth2 = (int) paint.measureText(statusText2);
-        canvas.drawText(statusText2, (width - textWidth2) / 2, frame.top
-                - statusPaddingTop + 60, paint);
-    }
-
 
     /**
      * 绘制移动扫描线
@@ -313,24 +301,7 @@ public final class ViewfinderView extends View {
      */
     private void drawScanLight(Canvas canvas, Rect frame) {
 
-        if (scanLineTop == 0 || scanLineTop + SCAN_VELOCITY >= frame.bottom) {
-            scanLineTop = frame.top;
-        } else {
-
-            /*缓动动画*/
-//            SCAN_VELOCITY = (frame.bottom - scanLineTop) / 12;
-//            SCAN_VELOCITY = (int) (SCAN_VELOCITY > 10 ? Math.ceil(SCAN_VELOCITY) : 10);
-            scanLineTop += SCAN_VELOCITY;
-        }
-
-//        Rect scanRect = new Rect(frame.left, scanLineTop, frame.right,
-//                scanLineTop + scanLightHeight);
-//        canvas.drawBitmap(scanLight, null, scanRect, paint);
-
-
-        paint.setColor(reactColor);
-        paint.setStrokeWidth(8);
-        canvas.drawLine(frame.left, scanLineTop, frame.right, scanLineTop, paint);
+        canvas.drawLine(frame.left, scanLineTop, frame.right, scanLineTop, scanLinePaint);
 
 
     }
