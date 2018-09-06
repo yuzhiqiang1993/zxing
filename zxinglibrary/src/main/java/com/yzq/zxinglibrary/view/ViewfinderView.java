@@ -87,7 +87,7 @@ public final class ViewfinderView extends View {
 
         possibleResultPoints = new ArrayList<ResultPoint>(10);
         lastPossibleResultPoints = null;
-      //  scanLight = BitmapFactory.decodeResource(resources, R.drawable.scan_light);
+
 
         initPaint();
 
@@ -102,12 +102,13 @@ public final class ViewfinderView extends View {
 
         scanLinePaint.setStrokeWidth(6);
         scanLinePaint.setStyle(Paint.Style.FILL);
+        scanLinePaint.setDither(true);
         scanLinePaint.setColor(Color.WHITE);
 
     }
 
     private void initAnimator() {
-        Log.i("initAnimator","initAnimator");
+
 
         if (valueAnimator==null){
             valueAnimator = ValueAnimator.ofInt(frame.top, frame.bottom);
@@ -120,7 +121,6 @@ public final class ViewfinderView extends View {
                 public void onAnimationUpdate(ValueAnimator animation) {
 
                     scanLineTop = (int) animation.getAnimatedValue();
-                 //   Log.i("scanLineTop:",scanLineTop+"");
                     invalidate();
 
                 }
