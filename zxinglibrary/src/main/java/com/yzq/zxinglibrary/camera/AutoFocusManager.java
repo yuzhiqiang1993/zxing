@@ -66,7 +66,8 @@ final class AutoFocusManager implements Camera.AutoFocusCallback {
         if (!stopped && outstandingTask == null) {
             AutoFocusTask newTask = new AutoFocusTask();
             try {
-                newTask.execute();
+              //  newTask.execute();
+                newTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                 outstandingTask = newTask;
             } catch (RejectedExecutionException ree) {
                 Log.w(TAG, "Could not request auto focus", ree);
