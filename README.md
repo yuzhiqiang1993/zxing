@@ -47,13 +47,16 @@ allprojects {
 ```
 
 然后在 build.gradle(Module:app) 的 dependencies 添加:
+
+最新版本：https://github.com/yuzhiqiang1993/zxing/releases
+
  ```
  dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:26.1.0'
     
     /*添加依赖*/
-    implementation 'com.github.yuzhiqiang1993:zxing:2.1.8'
+    implementation 'com.github.yuzhiqiang1993:zxing:2.2.0'
 }
 
  
