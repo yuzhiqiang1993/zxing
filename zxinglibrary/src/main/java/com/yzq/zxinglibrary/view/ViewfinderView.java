@@ -2,13 +2,10 @@
 package com.yzq.zxinglibrary.view;
 
 
-import android.animation.Animator;
 import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -16,9 +13,8 @@ import android.graphics.Rect;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
-import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
 
 import com.google.zxing.ResultPoint;
@@ -38,7 +34,7 @@ public final class ViewfinderView extends View {
     private static final int POINT_SIZE = 6;
 
     private CameraManager cameraManager;
-    private Paint paint,scanLinePaint;
+    private Paint paint, scanLinePaint;
     private Bitmap resultBitmap;
     private int maskColor; // 取景框外的背景颜色
     private int resultColor;// result Bitmap的颜色
@@ -79,7 +75,6 @@ public final class ViewfinderView extends View {
         super(context, attrs, defStyleAttr);
 
 
-
         maskColor = ContextCompat.getColor(getContext(), R.color.viewfinder_mask);
         resultColor = ContextCompat.getColor(getContext(), R.color.result_view);
         resultPointColor = ContextCompat.getColor(getContext(), R.color.possible_result_points);
@@ -92,15 +87,14 @@ public final class ViewfinderView extends View {
         initPaint();
 
 
-
     }
 
     private void initPaint() {
         paint = new Paint(Paint.ANTI_ALIAS_FLAG);
 
-        scanLinePaint=new Paint(Paint.ANTI_ALIAS_FLAG);
+        scanLinePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 
-        scanLinePaint.setStrokeWidth(6);
+        scanLinePaint.setStrokeWidth(dp2px(2));
         scanLinePaint.setStyle(Paint.Style.FILL);
         scanLinePaint.setDither(true);
         scanLinePaint.setColor(Color.WHITE);
@@ -110,7 +104,7 @@ public final class ViewfinderView extends View {
     private void initAnimator() {
 
 
-        if (valueAnimator==null){
+        if (valueAnimator == null) {
             valueAnimator = ValueAnimator.ofInt(frame.top, frame.bottom);
             valueAnimator.setDuration(3000);
             valueAnimator.setInterpolator(new DecelerateInterpolator());
@@ -174,7 +168,7 @@ public final class ViewfinderView extends View {
             drawScanLight(canvas, frame);
 
             /*绘制闪动的点*/
-            drawPoint(canvas, frame, previewFrame);
+          //  drawPoint(canvas, frame, previewFrame);
         }
     }
 
@@ -251,7 +245,7 @@ public final class ViewfinderView extends View {
         /*扫描框的边框线*/
         if (config.getFrameLineColor() != -1) {
             paint.setColor(ContextCompat.getColor(getContext(), config.getFrameLineColor()));
-            paint.setStrokeWidth(2);
+            paint.setStrokeWidth(dp2px(1));
             paint.setStyle(Paint.Style.STROKE);
             canvas.drawRect(frame, paint);
         }
@@ -259,7 +253,7 @@ public final class ViewfinderView extends View {
         /*扫描框的四个角*/
         paint.setColor(reactColor);
         paint.setStyle(Paint.Style.FILL);
-        paint.setStrokeWidth(1);
+        paint.setStrokeWidth(dp2px(1));
 
         /*四个角的长度和宽度*/
         int width = frame.width();
@@ -338,5 +332,10 @@ public final class ViewfinderView extends View {
         }
     }
 
+
+    private int dp2px(int dp) {
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, getResources().getDisplayMetrics());
+
+    }
 
 }
