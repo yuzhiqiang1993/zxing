@@ -103,7 +103,7 @@ public class CaptureActivity extends AppCompatActivity implements SurfaceHolder.
         if (config == null) {
             config = new ZxingConfig();
         }
-        
+
 
         setContentView(R.layout.activity_capture);
 
@@ -221,7 +221,7 @@ public class CaptureActivity extends AppCompatActivity implements SurfaceHolder.
     protected void onResume() {
         super.onResume();
 
-        cameraManager = new CameraManager(getApplication(),config);
+        cameraManager = new CameraManager(getApplication(), config);
 
         viewfinderView.setCameraManager(cameraManager);
         handler = null;

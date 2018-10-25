@@ -168,7 +168,7 @@ public final class ViewfinderView extends View {
             drawScanLight(canvas, frame);
 
             /*绘制闪动的点*/
-          //  drawPoint(canvas, frame, previewFrame);
+            //  drawPoint(canvas, frame, previewFrame);
         }
     }
 
