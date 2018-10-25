@@ -7,7 +7,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.support.annotation.Nullable;
@@ -34,13 +33,14 @@ public final class ViewfinderView extends View {
     private static final int POINT_SIZE = 6;
 
     private CameraManager cameraManager;
-    private Paint paint, scanLinePaint;
+    private Paint paint, scanLinePaint, reactPaint, frameLinePaint;
     private Bitmap resultBitmap;
     private int maskColor; // 取景框外的背景颜色
     private int resultColor;// result Bitmap的颜色
     private int resultPointColor; // 特征点的颜色
-    private int statusColor; // 提示文字颜色
     private int reactColor;//四个角的颜色
+    private int scanLineColor;//扫描线的颜色
+    private int frameLineColor = -1;//边框线的颜色
 
 
     private List<ResultPoint> possibleResultPoints;
@@ -68,23 +68,26 @@ public final class ViewfinderView extends View {
     public void setZxingConfig(ZxingConfig config) {
         this.config = config;
         reactColor = ContextCompat.getColor(getContext(), config.getReactColor());
+
+        if (config.getFrameLineColor() != -1) {
+            frameLineColor = ContextCompat.getColor(getContext(), config.getFrameLineColor());
+        }
+
+        scanLineColor = ContextCompat.getColor(getContext(), config.getScanLineColor());
+        initPaint();
+
     }
 
 
     public ViewfinderView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
 
-
         maskColor = ContextCompat.getColor(getContext(), R.color.viewfinder_mask);
         resultColor = ContextCompat.getColor(getContext(), R.color.result_view);
         resultPointColor = ContextCompat.getColor(getContext(), R.color.possible_result_points);
-        statusColor = ContextCompat.getColor(getContext(), R.color.status_text);
 
         possibleResultPoints = new ArrayList<ResultPoint>(10);
         lastPossibleResultPoints = null;
-
-
-        initPaint();
 
 
     }
@@ -92,17 +95,33 @@ public final class ViewfinderView extends View {
     private void initPaint() {
         paint = new Paint(Paint.ANTI_ALIAS_FLAG);
 
-        scanLinePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        /*四个角的画笔*/
+        reactPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        reactPaint.setColor(reactColor);
+        reactPaint.setStyle(Paint.Style.FILL);
+        reactPaint.setStrokeWidth(dp2px(1));
 
+        /*边框线画笔*/
+
+        if (frameLineColor != -1) {
+            frameLinePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+            frameLinePaint.setColor(ContextCompat.getColor(getContext(), config.getFrameLineColor()));
+            frameLinePaint.setStrokeWidth(dp2px(1));
+            frameLinePaint.setStyle(Paint.Style.STROKE);
+        }
+
+
+
+        /*扫描线画笔*/
+        scanLinePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         scanLinePaint.setStrokeWidth(dp2px(2));
         scanLinePaint.setStyle(Paint.Style.FILL);
         scanLinePaint.setDither(true);
-        scanLinePaint.setColor(Color.WHITE);
+        scanLinePaint.setColor(scanLineColor);
 
     }
 
     private void initAnimator() {
-
 
         if (valueAnimator == null) {
             valueAnimator = ValueAnimator.ofInt(frame.top, frame.bottom);
@@ -135,8 +154,9 @@ public final class ViewfinderView extends View {
     @SuppressLint("DrawAllocation")
     @Override
     public void onDraw(Canvas canvas) {
+
         if (cameraManager == null) {
-            return; // not ready yet, early draw before done configuring
+            return;
         }
 
         // frame为取景框
@@ -156,7 +176,6 @@ public final class ViewfinderView extends View {
         /*绘制取景框边框*/
         drawFrameBounds(canvas, frame);
 
-
         if (resultBitmap != null) {
             // Draw the opaque result bitmap over the scanning rectangle
             // 如果有二维码结果的Bitmap，在扫取景框内绘制不透明的result Bitmap
@@ -168,7 +187,7 @@ public final class ViewfinderView extends View {
             drawScanLight(canvas, frame);
 
             /*绘制闪动的点*/
-            //  drawPoint(canvas, frame, previewFrame);
+            // drawPoint(canvas, frame, previewFrame);
         }
     }
 
@@ -243,17 +262,10 @@ public final class ViewfinderView extends View {
     private void drawFrameBounds(Canvas canvas, Rect frame) {
 
         /*扫描框的边框线*/
-        if (config.getFrameLineColor() != -1) {
-            paint.setColor(ContextCompat.getColor(getContext(), config.getFrameLineColor()));
-            paint.setStrokeWidth(dp2px(1));
-            paint.setStyle(Paint.Style.STROKE);
-            canvas.drawRect(frame, paint);
+        if (frameLineColor != -1) {
+            canvas.drawRect(frame, frameLinePaint);
         }
 
-        /*扫描框的四个角*/
-        paint.setColor(reactColor);
-        paint.setStyle(Paint.Style.FILL);
-        paint.setStrokeWidth(dp2px(1));
 
         /*四个角的长度和宽度*/
         int width = frame.width();
@@ -266,24 +278,24 @@ public final class ViewfinderView extends View {
         /*角在线外*/
         // 左上角
         canvas.drawRect(frame.left - corWidth, frame.top, frame.left, frame.top
-                + corLength, paint);
+                + corLength, reactPaint);
         canvas.drawRect(frame.left - corWidth, frame.top - corWidth, frame.left
-                + corLength, frame.top, paint);
+                + corLength, frame.top, reactPaint);
         // 右上角
         canvas.drawRect(frame.right, frame.top, frame.right + corWidth,
-                frame.top + corLength, paint);
+                frame.top + corLength, reactPaint);
         canvas.drawRect(frame.right - corLength, frame.top - corWidth,
-                frame.right + corWidth, frame.top, paint);
+                frame.right + corWidth, frame.top, reactPaint);
         // 左下角
         canvas.drawRect(frame.left - corWidth, frame.bottom - corLength,
-                frame.left, frame.bottom, paint);
+                frame.left, frame.bottom, reactPaint);
         canvas.drawRect(frame.left - corWidth, frame.bottom, frame.left
-                + corLength, frame.bottom + corWidth, paint);
+                + corLength, frame.bottom + corWidth, reactPaint);
         // 右下角
         canvas.drawRect(frame.right, frame.bottom - corLength, frame.right
-                + corWidth, frame.bottom, paint);
+                + corWidth, frame.bottom, reactPaint);
         canvas.drawRect(frame.right - corLength, frame.bottom, frame.right
-                + corWidth, frame.bottom + corWidth, paint);
+                + corWidth, frame.bottom + corWidth, reactPaint);
     }
 
 

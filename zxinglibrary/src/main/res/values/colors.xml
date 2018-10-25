@@ -13,6 +13,7 @@
     <color name="viewfinder_mask">#50000000</color>
     <color name="react">#ffffff</color>
     <color name="scanLineColor">#ffffff</color>
+    <color name="defaultColor">#ffffff</color>
 
 
 </resources>

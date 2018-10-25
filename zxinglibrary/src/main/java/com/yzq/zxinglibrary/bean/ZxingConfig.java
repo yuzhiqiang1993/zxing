@@ -39,14 +39,9 @@ public class ZxingConfig implements Serializable {
     private int frameLineColor = -1;
 
 
-//    /*扫描线颜色*/
-//    @ColorRes
-//    private int scanLineColor = R.color.scanLineColor;
-//
-//    /*遮罩颜色*/
-//    @ColorRes
-//    private int maskViewColor = R.color.viewfinder_mask;
-
+    /*扫描线颜色*/
+    @ColorRes
+    private int scanLineColor = R.color.scanLineColor;
 
     public int getFrameLineColor() {
         return frameLineColor;
@@ -56,21 +51,13 @@ public class ZxingConfig implements Serializable {
         this.frameLineColor = frameLineColor;
     }
 
-//    public int getScanLineColor() {
-//        return scanLineColor;
-//    }
-//
-//    public void setScanLineColor(@ColorRes int scanLineColor) {
-//        this.scanLineColor = scanLineColor;
-//    }
-//
-//    public int getMaskViewColor() {
-//        return maskViewColor;
-//    }
-//
-//    public void setMaskViewColor(@ColorRes int maskViewColor) {
-//        this.maskViewColor = maskViewColor;
-//    }
+    public int getScanLineColor() {
+        return scanLineColor;
+    }
+
+    public void setScanLineColor(@ColorRes int scanLineColor) {
+        this.scanLineColor = scanLineColor;
+    }
 
     public int getReactColor() {
         return reactColor;
