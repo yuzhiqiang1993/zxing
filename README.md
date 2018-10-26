@@ -56,7 +56,7 @@ allprojects {
     compile 'com.android.support:appcompat-v7:26.1.0'
     
     /*添加依赖*/
-    implementation 'com.github.yuzhiqiang1993:zxing:2.2.0'
+    implementation 'com.github.yuzhiqiang1993:zxing:2.2.1'
 }
 
  
