@@ -20,9 +20,9 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     api files('libs/core-3.3.0.jar')
-    implementation "com.android.support:appcompat-v7:$android_support"
-    implementation "com.android.support:design:$android_support"
-    implementation "com.android.support:support-v4:$android_support"
-    implementation "com.android.support:support-vector-drawable:$android_support"
+    compileOnly "com.android.support:appcompat-v7:$android_support"
+    compileOnly "com.android.support:design:$android_support"
+    compileOnly "com.android.support:support-v4:$android_support"
+    compileOnly "com.android.support:support-vector-drawable:$android_support"
 
 }
