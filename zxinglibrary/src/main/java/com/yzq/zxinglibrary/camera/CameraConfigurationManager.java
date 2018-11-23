@@ -109,6 +109,7 @@ final class CameraConfigurationManager {
             cameraResolution = new Point(
                     (screenResolution.x >> 3) << 3,
                     (screenResolution.y >> 3) << 3);
+
         }
 
         return cameraResolution;
