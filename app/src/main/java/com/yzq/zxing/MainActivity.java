@@ -16,7 +16,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.zxing.WriterException;
 import com.yanzhenjie.permission.Action;
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.Permission;
@@ -142,13 +141,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     return;
                 }
 
+                bitmap = CodeCreator.createQRCode(contentEtString, 400, 400, null);
 
-                try {
-                    bitmap = CodeCreator.createQRCode(contentEtString, 400, 400, null);
-
-                } catch (WriterException e) {
-                    e.printStackTrace();
-                }
                 if (bitmap != null) {
                     contentIv.setImageBitmap(bitmap);
                 }
@@ -163,14 +157,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     return;
                 }
 
-                bitmap = null;
-                try {
-                    Bitmap logo = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
-                    bitmap = CodeCreator.createQRCode(contentEtString, 400, 400, logo);
+                Bitmap logo = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
+                bitmap = CodeCreator.createQRCode(contentEtString, 400, 400, logo);
 
-                } catch (WriterException e) {
-                    e.printStackTrace();
-                }
                 if (bitmap != null) {
                     contentIvWithLogo.setImageBitmap(bitmap);
                 }

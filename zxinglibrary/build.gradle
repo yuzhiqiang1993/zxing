@@ -19,7 +19,7 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    api files('libs/core-3.3.3.jar')
+    implementation files('libs/core-3.3.3.jar')
     compileOnly "com.android.support:appcompat-v7:$android_support"
     compileOnly "com.android.support:design:$android_support"
     compileOnly "com.android.support:support-v4:$android_support"
