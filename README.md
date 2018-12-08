@@ -4,8 +4,8 @@
 如果直接依赖不满足你的需求，需要自己修改样式或源码的话，可以将该库作为module集成到你的项目中，集成方法参考我的这篇博客：https://blog.csdn.net/yuzhiqiang_1993/article/details/52805057
 
 
-更新日志：
-https://github.com/yuzhiqiang1993/zxing/wiki/update-log
+版本说明：
+https://github.com/yuzhiqiang1993/zxing/releases
 
 博客： http://blog.csdn.net/yuzhiqiang_1993/article/details/78292004
 
@@ -59,7 +59,7 @@ allprojects {
     compile 'com.android.support:appcompat-v7:26.1.0'
     
     /*添加依赖*/
-    implementation 'com.github.yuzhiqiang1993:zxing:2.2.1'
+    implementation 'com.github.yuzhiqiang1993:zxing:2.2.4'
 }
 
  
@@ -150,14 +150,7 @@ startActivityForResult(intent, REQUEST_CODE_SCAN);
 5.生成二维码
 -------------------------------
 ```
-                String contentEtString = contentEt.getText().toString().trim();
-                
-                if (TextUtils.isEmpty(contentEtString)) {
-                    Toast.makeText(this, "contentEtString不能为空", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                Bitmap bitmap = null;
-                try {
+         
                     /*
                     * contentEtString：字符串内容
                     * w：图片的宽
@@ -167,11 +160,8 @@ startActivityForResult(intent, REQUEST_CODE_SCAN);
 
                     Bitmap logo = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
                     bitmap = CodeCreator.createQRCode(contentEtString, 400, 400, logo);
-                } catch (WriterException e) {
-                    e.printStackTrace();
-                }
-                
-
+             
+              
 ```
 >
 
