@@ -27,7 +27,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:padding="8dp"
-        android:textStyle="bold" />
+        />
 
     <Button
         android:id="@+id/scanBtn"
