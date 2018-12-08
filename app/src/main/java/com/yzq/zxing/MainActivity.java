@@ -142,7 +142,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
 
                 bitmap = CodeCreator.createQRCode(contentEtString, 400, 400, null);
-
                 if (bitmap != null) {
                     contentIv.setImageBitmap(bitmap);
                 }
