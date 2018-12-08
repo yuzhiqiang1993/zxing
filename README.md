@@ -21,15 +21,13 @@ https://github.com/yuzhiqiang1993/zxing/releases
 
 下图分别为 完整示例，扫描二维码，扫描条码，闪光灯，解析二维码图片，解析条码图片，生成二维码,修改扫描框四个角的颜色，修改扫描框边线颜色
 ------------------------
-![修改边线颜色](https://github.com/yuzhiqiang1993/zxing/blob/master/img/example.gif "完整示例")
+
 ![扫描二维码](https://github.com/yuzhiqiang1993/zxing/blob/master/img/scanEwm.gif "扫描二维码")
 ![扫描条码](https://github.com/yuzhiqiang1993/zxing/blob/master/img/scanTm.gif "扫描条码")
 ![闪光灯](https://github.com/yuzhiqiang1993/zxing/blob/master/img/flashlight.gif "闪光灯")
 ![解析二维码图片](https://github.com/yuzhiqiang1993/zxing/blob/master/img/decodeEWM.gif "解析二维码图片")
 ![解析条码图片](https://github.com/yuzhiqiang1993/zxing/blob/master/img/decodeTM.gif "解析条码图片")
 ![生成二维码图片](https://github.com/yuzhiqiang1993/zxing/blob/master/img/createEwm.gif "生成二维码图片")
-![修改边角颜色](https://github.com/yuzhiqiang1993/zxing/blob/master/img/edit_react_color.gif "修改边角颜色")
-![修改边线颜色](https://github.com/yuzhiqiang1993/zxing/blob/master/img/edit_frameline_color.gif "修改边线颜色")
 
 
 
