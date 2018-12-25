@@ -274,6 +274,8 @@ public class CaptureActivity extends AppCompatActivity implements SurfaceHolder.
 
     @Override
     protected void onPause() {
+
+        Log.i("CaptureActivity","onPause");
         if (handler != null) {
             handler.quitSynchronously();
             handler = null;

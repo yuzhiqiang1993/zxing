@@ -9,8 +9,8 @@ buildscript {
         min_sdk_version = 16
         target_sdk_version = 27
         constraint_version = '1.1.0'
-        version_code = 221
-        version_name = '2.2.1'
+        version_code = 224
+        version_name = '2.2.4'
 
         /*support*/
         android_support = '28.0.0'

@@ -24,6 +24,6 @@ dependencies {
     compileOnly "com.android.support:design:$android_support"
     compileOnly "com.android.support:support-v4:$android_support"
     compileOnly "com.android.support:support-vector-drawable:$android_support"
-   // implementation 'com.google.zxing:core:3.3.2'
+    // implementation 'com.google.zxing:core:3.3.2'
 
 }

@@ -20,6 +20,7 @@
             android:name=".android.CaptureActivity"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.NoActionBar"
             android:windowSoftInputMode="adjustPan|stateHidden" />
     </application>
 </manifest>
