@@ -25,7 +25,7 @@
         <RelativeLayout
             android:id="@+id/headerLayout"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
+            android:layout_height="@dimen/toolBarHeight"
             android:layout_gravity="top"
             android:background="#99000000">
 

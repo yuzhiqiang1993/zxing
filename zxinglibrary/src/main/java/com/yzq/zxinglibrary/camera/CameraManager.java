@@ -26,6 +26,7 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 
 import com.google.zxing.PlanarYUVLuminanceSource;
+import com.yzq.zxinglibrary.R;
 import com.yzq.zxinglibrary.android.CaptureActivityHandler;
 import com.yzq.zxinglibrary.bean.ZxingConfig;
 import com.yzq.zxinglibrary.common.Constant;
@@ -360,8 +361,9 @@ public final class CameraManager {
             return new PlanarYUVLuminanceSource(data, width, height, 0,
                     0, width, height, false);
         } else {
+            int actionbarHeight = context.getResources().getDimensionPixelSize(R.dimen.toolBarHeight);
             return new PlanarYUVLuminanceSource(data, width, height, rect.left,
-                    rect.top, rect.width(), rect.height(), false);
+                    rect.top + actionbarHeight, rect.width(), rect.height(), false);
         }
 
 
