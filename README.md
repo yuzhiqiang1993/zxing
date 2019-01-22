@@ -38,7 +38,8 @@ https://github.com/yuzhiqiang1993/zxing/releases
 
 1.添加依赖
 --------------------
-先在 build.gradle(Project:XXXX) 的 repositories 添加:
+先在 build.gradle(Project:XXXX) 的 repositories 添加``` maven { url 'https://jitpack.io' }```
+一定要加上这个，否则会提示依赖失败
 
 ```
 allprojects {
