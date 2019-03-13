@@ -16,12 +16,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.zxing.Result;
 import com.yanzhenjie.permission.Action;
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.Permission;
 import com.yzq.zxinglibrary.android.CaptureActivity;
 import com.yzq.zxinglibrary.bean.ZxingConfig;
 import com.yzq.zxinglibrary.common.Constant;
+import com.yzq.zxinglibrary.decode.DecodeImgCallback;
+import com.yzq.zxinglibrary.decode.DecodeImgThread;
 import com.yzq.zxinglibrary.encode.CodeCreator;
 
 import java.util.List;
@@ -92,6 +95,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
+
 
         Bitmap bitmap = null;
         switch (v.getId()) {
@@ -165,6 +169,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
 
                 break;
+
 
             default:
         }

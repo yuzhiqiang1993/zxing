@@ -39,24 +39,23 @@ public class DecodeImgThread extends Thread {
             return;
         }
 
-
-        Bitmap scanBitmap = getBitmap(imgPath,400,400);
+        Bitmap scanBitmap = getBitmap(imgPath, 400, 400);
 
         MultiFormatReader multiFormatReader = new MultiFormatReader();
         // 解码的参数
         Hashtable<DecodeHintType, Object> hints = new Hashtable<DecodeHintType, Object>(2);
         // 可以解析的编码类型
         Vector<BarcodeFormat> decodeFormats = new Vector<BarcodeFormat>();
-        if (decodeFormats == null || decodeFormats.isEmpty()) {
-            decodeFormats = new Vector<BarcodeFormat>();
-            // 扫描的类型  一维码和二维码
-            decodeFormats.addAll(DecodeFormatManager.ONE_D_FORMATS);
-            decodeFormats.addAll(DecodeFormatManager.QR_CODE_FORMATS);
-            decodeFormats.addAll(DecodeFormatManager.DATA_MATRIX_FORMATS);
-        }
+
+
+        // 扫描的类型  一维码和二维码
+        decodeFormats.addAll(DecodeFormatManager.ONE_D_FORMATS);
+        decodeFormats.addAll(DecodeFormatManager.QR_CODE_FORMATS);
+        decodeFormats.addAll(DecodeFormatManager.DATA_MATRIX_FORMATS);
+
         hints.put(DecodeHintType.POSSIBLE_FORMATS, decodeFormats);
         // 设置解析的字符编码格式为UTF8
-      //  hints.put(DecodeHintType.CHARACTER_SET, "UTF8");
+        //  hints.put(DecodeHintType.CHARACTER_SET, "UTF8");
         // 设置解析配置参数
         multiFormatReader.setHints(hints);
         // 开始对图像资源解码
@@ -81,7 +80,6 @@ public class DecodeImgThread extends Thread {
     }
 
 
-
     /**
      * 根据路径获取图片
      *
@@ -90,7 +88,7 @@ public class DecodeImgThread extends Thread {
      * @param maxHeight 图片最大高度
      * @return bitmap
      */
-    public static Bitmap getBitmap(final String filePath, final int maxWidth, final int maxHeight) {
+    private static Bitmap getBitmap(final String filePath, final int maxWidth, final int maxHeight) {
 
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;

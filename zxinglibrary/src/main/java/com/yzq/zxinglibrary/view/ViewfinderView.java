@@ -151,6 +151,15 @@ public final class ViewfinderView extends View {
 
     }
 
+    public void stopAnimator() {
+        if (valueAnimator != null) {
+            valueAnimator.end();
+            valueAnimator.cancel();
+            valueAnimator = null;
+        }
+
+    }
+
     @SuppressLint("DrawAllocation")
     @Override
     public void onDraw(Canvas canvas) {

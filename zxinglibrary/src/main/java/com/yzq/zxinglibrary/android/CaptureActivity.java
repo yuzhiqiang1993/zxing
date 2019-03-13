@@ -294,6 +294,7 @@ public class CaptureActivity extends AppCompatActivity implements SurfaceHolder.
     @Override
     protected void onDestroy() {
         inactivityTimer.shutdown();
+        viewfinderView.stopAnimator();
         super.onDestroy();
     }
 
@@ -344,6 +345,7 @@ public class CaptureActivity extends AppCompatActivity implements SurfaceHolder.
 
         if (requestCode == Constant.REQUEST_IMAGE && resultCode == RESULT_OK) {
             String path = ImageUtil.getImageAbsolutePath(this, data.getData());
+
 
             new DecodeImgThread(path, new DecodeImgCallback() {
                 @Override

@@ -26,8 +26,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:padding="8dp"
-        />
+        android:padding="8dp" />
 
     <Button
         android:id="@+id/scanBtn"
@@ -39,6 +38,13 @@
         android:id="@+id/contentEt"
         android:layout_width="match_parent"
         android:layout_height="56dp" />
+
+    <Button
+        android:id="@+id/decodeImgBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="长按图片识别二维码" />
+
 
     <Button
         android:id="@+id/encodeBtnWithLogo"
@@ -64,13 +70,9 @@
 
     <ImageView
         android:id="@+id/contentIv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-
-        />
-
-
+        android:layout_width="96dp"
+        android:layout_height="96dp"
+        android:layout_gravity="center" />
 
 
 </LinearLayout>
