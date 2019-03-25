@@ -40,7 +40,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:text="扫一扫"
+                android:text="@string/scan_code"
                 android:textColor="#ffffff"
                 android:textSize="20sp" />
 
@@ -84,7 +84,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:gravity="center"
-                    android:text="打开闪光灯"
+                    android:text="@string/open_flash"
                     android:textColor="#ffffff" />
 
             </android.support.v7.widget.LinearLayoutCompat>
@@ -109,7 +109,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:gravity="center"
-                    android:text="相册"
+                    android:text="@string/gallery"
 
                     android:textColor="#ffffff" />
             </android.support.v7.widget.LinearLayoutCompat>
