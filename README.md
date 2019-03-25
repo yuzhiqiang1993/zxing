@@ -1,3 +1,5 @@
+[![](https://jitpack.io/v/yuzhiqiang1993/zxing.svg)](https://jitpack.io/#yuzhiqiang1993/zxing)
+
 # zxing
 一句话依赖就能实现扫一扫功能，包含闪光灯开关，选取本地图片解析，生成二维码(可带logo)功能等。
 
@@ -54,7 +56,7 @@ allprojects {
 然后在 build.gradle(Module:app) 的 dependencies 添加:
 
 最新版本：https://github.com/yuzhiqiang1993/zxing/releases
-
+[![](https://jitpack.io/v/yuzhiqiang1993/zxing.svg)](https://jitpack.io/#yuzhiqiang1993/zxing)
  ```
  dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
