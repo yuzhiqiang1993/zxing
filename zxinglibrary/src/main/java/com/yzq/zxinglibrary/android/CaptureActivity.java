@@ -182,10 +182,10 @@ public class CaptureActivity extends AppCompatActivity implements SurfaceHolder.
 
         if (flashState == Constant.FLASH_OPEN) {
             flashLightIv.setImageResource(R.drawable.ic_open);
-            flashLightTv.setText("关闭闪光灯");
+            flashLightTv.setText(R.string.close_flash);
         } else {
             flashLightIv.setImageResource(R.drawable.ic_close);
-            flashLightTv.setText("打开闪光灯");
+            flashLightTv.setText(R.string.open_flash);
         }
 
     }
@@ -355,7 +355,7 @@ public class CaptureActivity extends AppCompatActivity implements SurfaceHolder.
 
                 @Override
                 public void onImageDecodeFailed() {
-                    Toast.makeText(CaptureActivity.this, "抱歉，解析失败,换个图片试试.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CaptureActivity.this, R.string.scan_failed_tip, Toast.LENGTH_SHORT).show();
                 }
             }).run();
 
