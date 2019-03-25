@@ -75,4 +75,11 @@
         android:layout_gravity="center" />
 
 
+    <Button
+        android:id="@+id/fragScanBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="在Fragment中使用扫一扫" />
+
+
 </LinearLayout>

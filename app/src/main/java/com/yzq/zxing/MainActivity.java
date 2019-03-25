@@ -16,15 +16,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.zxing.Result;
 import com.yanzhenjie.permission.Action;
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.Permission;
 import com.yzq.zxinglibrary.android.CaptureActivity;
 import com.yzq.zxinglibrary.bean.ZxingConfig;
 import com.yzq.zxinglibrary.common.Constant;
-import com.yzq.zxinglibrary.decode.DecodeImgCallback;
-import com.yzq.zxinglibrary.decode.DecodeImgThread;
 import com.yzq.zxinglibrary.encode.CodeCreator;
 
 import java.util.List;
@@ -44,6 +41,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button encodeBtn;
     private ImageView contentIv;
     private Toolbar toolbar;
+    private Button fragScanBtn;
     private int REQUEST_CODE_SCAN = 111;
     /**
      * 生成带logo的二维码
@@ -74,6 +72,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         encodeBtn.setOnClickListener(this);
         /*生成的图片*/
         contentIv = findViewById(R.id.contentIv);
+
+        fragScanBtn = findViewById(R.id.fragScanBtn);
+        fragScanBtn.setOnClickListener(this);
 
         toolbar = findViewById(R.id.toolbar);
 
@@ -168,6 +169,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     contentIvWithLogo.setImageBitmap(bitmap);
                 }
 
+                break;
+
+            case R.id.fragScanBtn:
+                Intent intent = new Intent(this, FragmentActivity.class);
+                startActivity(intent);
                 break;
 
 
