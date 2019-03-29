@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Zxing Library</string>
+    <string name="zxing_app_name">Zxing Library</string>
     <!--zxing-->
     <string name="msg_camera_framework_bug">The camera is occupied or has no camera permission, please check</string>
     <string name="button_ok">Exit</string>
