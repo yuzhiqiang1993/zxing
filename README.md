@@ -1,4 +1,5 @@
 [![](https://jitpack.io/v/yuzhiqiang1993/zxing.svg)](https://jitpack.io/#yuzhiqiang1993/zxing)
+[![](https://jitpack.io/v/yuzhiqiang1993/zxing.svg)](https://github.com/yuzhiqiang1993/zxing/blob/master/LICENSE.txt)
 
 # zxing
 一句话依赖就能实现扫一扫功能，包含闪光灯开关，选取本地图片解析，生成二维码(可带logo)功能等。
