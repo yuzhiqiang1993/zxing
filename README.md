@@ -58,10 +58,10 @@ allprojects {
 
 最新版本：https://github.com/yuzhiqiang1993/zxing/releases
 [![](https://jitpack.io/v/yuzhiqiang1993/zxing.svg)](https://jitpack.io/#yuzhiqiang1993/zxing)
- ```
+ ```grovvy
  dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:26.1.0'
+    implementation 'androidx.appcompat:appcompat:1.0.0'
     
     /*添加依赖*/
     implementation 'com.github.yuzhiqiang1993:zxing:2.2.5'
@@ -134,38 +134,37 @@ startActivityForResult(intent, REQUEST_CODE_SCAN);
 -------------------------------------------
 注意：Constant.CODED_CONTENT引的是这个com.yzq.zxinglibrary.common.Constant
 
-```
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+```java
+@Override
+protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    super.onActivityResult(requestCode, resultCode, data);
 
-        // 扫描二维码/条码回传
-        if (requestCode == REQUEST_CODE_SCAN && resultCode == RESULT_OK) {
-            if (data != null) {
+    // 扫描二维码/条码回传
+    if (requestCode == REQUEST_CODE_SCAN && resultCode == RESULT_OK) {
+        if (data != null) {
 
-                String content = data.getStringExtra(Constant.CODED_CONTENT);
-                result.setText("扫描结果为：" + content);
-            }
+            String content = data.getStringExtra(Constant.CODED_CONTENT);
+            result.setText("扫描结果为：" + content);
         }
     }
+}
 
 ```
 
 
 5.生成二维码
 -------------------------------
-```
-         
-                    /*
-                    * contentEtString：字符串内容
-                    * w：图片的宽
-                    * h：图片的高
-                    * logo：不需要logo的话直接传null
-                    * */
+```java
 
-                    Bitmap logo = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
-                    bitmap = CodeCreator.createQRCode(contentEtString, 400, 400, logo);
-             
+/*
+* contentEtString：字符串内容
+* w：图片的宽
+* h：图片的高
+* logo：不需要logo的话直接传null
+* */
+
+Bitmap logo = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
+bitmap = CodeCreator.createQRCode(contentEtString, 400, 400, logo);
               
 ```
 >
