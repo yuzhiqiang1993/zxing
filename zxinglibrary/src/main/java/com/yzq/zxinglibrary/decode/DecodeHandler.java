@@ -71,16 +71,19 @@ public final class DecodeHandler extends Handler {
 
         Result rawResult = null;
 
-        byte[] rotatedData = new byte[data.length];
-        for (int y = 0; y < height; y++) {
-            for (int x = 0; x < width; x++) {
-                rotatedData[x * height + height - y - 1] = data[x + y * width];
-            }
-        }
-        int tmp = width; // Here we are swapping, that's the difference to #11
-        width = height;
-        height = tmp;
-        data = rotatedData;
+
+        //横屏注释掉代码，竖屏放开代码
+//        byte[] rotatedData = new byte[data.length];
+//        for (int y = 0; y < height; y++) {
+//            for (int x = 0; x < width; x++) {
+//                rotatedData[x * height + height - y - 1] = data[x + y * width];
+//            }
+//        }
+//        int tmp = width; // Here we are swapping, that's the difference to #11
+//        width = height;
+//        height = tmp;
+
+//        data = rotatedData;
 
         PlanarYUVLuminanceSource source = activity.getCameraManager()
                 .buildLuminanceSource(data, width, height);
