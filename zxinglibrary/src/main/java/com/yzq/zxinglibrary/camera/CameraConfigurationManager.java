@@ -49,20 +49,35 @@ final class CameraConfigurationManager {
 
         WindowManager manager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         Display display = manager.getDefaultDisplay();
-        screenResolution = new Point(display.getWidth(), display.getHeight());
+
+        int width=display.getWidth();
+        int height=display.getHeight();
+        if (width<height){
+            Log.i(TAG,"Display reports portrait orientation; assuming this is incorrect");
+
+            int temp = width;
+
+            width = height;
+
+            height = temp;
+        }
+
+        screenResolution = new Point(width, height);
         Log.d(TAG, "Screen resolution: " + screenResolution);
 
         Point screenResolutionForCamera = new Point();
-        screenResolutionForCamera.x = screenResolution.x;
-        screenResolutionForCamera.y = screenResolution.y;
 
 
-        if (screenResolution.x < screenResolution.y) {
-            screenResolutionForCamera.x = screenResolution.y;
-            screenResolutionForCamera.y = screenResolution.x;
-        }
+//        screenResolutionForCamera.x = screenResolution.x;
+//        screenResolutionForCamera.y = screenResolution.y;
+//
+//
+//        if (screenResolution.x < screenResolution.y) {
+//            screenResolutionForCamera.x = screenResolution.y;
+//            screenResolutionForCamera.y = screenResolution.x;
+//        }
 
-        cameraResolution = getCameraResolution(parameters, screenResolutionForCamera);
+        cameraResolution = getCameraResolution(parameters, screenResolution);
 
 
     }
@@ -71,12 +86,15 @@ final class CameraConfigurationManager {
     void setDesiredCameraParameters(Camera camera) {
         Camera.Parameters parameters = camera.getParameters();
         Log.d(TAG, "Setting preview size: " + cameraResolution);
+
+        
         parameters.setPreviewSize(cameraResolution.x, cameraResolution.y);
 
         setZoom(parameters);
         //setSharpness(parameters);
         //modify here
-        camera.setDisplayOrientation(90);
+        ////90为竖屏，0为横屏
+        camera.setDisplayOrientation(0);
         camera.setParameters(parameters);
     }
 
