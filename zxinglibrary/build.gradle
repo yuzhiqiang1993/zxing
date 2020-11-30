@@ -1,7 +1,7 @@
 apply plugin: 'com.android.library'
 
 apply plugin: 'com.github.dcendents.android-maven'
-group='com.github.yuzhiqiang1993'
+group = 'com.github.yuzhiqiang1993'
 
 android {
     compileSdkVersion compile_sdk_version
@@ -19,7 +19,8 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    api files('libs/core-3.3.3.jar')
+    api files('libs/core-3.4.1.jar')
+
     compileOnly "com.android.support:appcompat-v7:$android_support"
     compileOnly "com.android.support:design:$android_support"
     compileOnly "com.android.support:support-v4:$android_support"
