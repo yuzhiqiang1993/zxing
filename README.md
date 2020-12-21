@@ -73,7 +73,6 @@ allprojects {
  2.权限
  --------------
  
- demo使用的权限申请是严大的一个开源库，地址：https://github.com/yanzhenjie/AndPermission 感谢严大！
  
  需要申请的权限有：
  
