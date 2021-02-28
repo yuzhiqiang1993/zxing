@@ -168,5 +168,5 @@ bitmap = CodeCreator.createQRCode(contentEtString, 400, 400, logo);
 ```
 >
 
-ok,搞定了，就是这么简单，如果你觉得还行的话，麻烦给个start呦，有什么问题和建议直接提Issues,谢谢。
+ok,搞定了，就是这么简单，如果你觉得还行的话，麻烦给个star呦，有什么问题和建议直接提Issues,谢谢。
 --------------------------
