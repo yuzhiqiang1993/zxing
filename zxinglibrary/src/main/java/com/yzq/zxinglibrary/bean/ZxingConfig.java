@@ -1,6 +1,6 @@
 package com.yzq.zxinglibrary.bean;
 
-import android.support.annotation.ColorRes;
+import androidx.annotation.ColorRes;
 
 import com.yzq.zxinglibrary.R;
 

@@ -6,19 +6,19 @@
     android:orientation="vertical"
     tools:context="com.yzq.zxing.MainActivity">
 
-    <android.support.design.widget.AppBarLayout
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay">
 
-        <android.support.v7.widget.Toolbar
+        <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize">
 
-        </android.support.v7.widget.Toolbar>
+        </androidx.appcompat.widget.Toolbar>
 
-    </android.support.design.widget.AppBarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
 
 
     <TextView
@@ -43,7 +43,8 @@
         android:id="@+id/decodeImgBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="长按图片识别二维码" />
+        android:text="长按图片识别二维码"
+        android:visibility="gone" />
 
 
     <Button
