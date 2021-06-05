@@ -9,8 +9,8 @@ buildscript {
         min_sdk_version = 21
         target_sdk_version = 29
         constraint_version = '1.1.0'
-        version_code = 227
-        version_name = '2.2.7'
+        version_code = 229
+        version_name = '2.2.9'
 
 
         signConfigs = [
