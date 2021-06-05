@@ -30,7 +30,7 @@ dependencies {
     implementation "androidx.annotation:annotation:1.2.0"
     implementation "androidx.multidex:multidex:2.0.1"
     implementation 'com.yanzhenjie:permission:2.0.0-rc4'
-    implementation project(':zxinglibrary')
-    //implementation 'com.github.yuzhiqiang1993:zxing:2.2.1'
+//    implementation project(':zxinglibrary')
+    implementation 'com.github.yuzhiqiang1993:zxing:2.2.9'
     implementation 'com.android.support.constraint:constraint-layout:2.0.4'
 }
