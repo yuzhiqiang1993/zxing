@@ -64,10 +64,16 @@ allprojects {
     implementation 'androidx.appcompat:appcompat:1.0.0'
     
     /*添加依赖*/
-    implementation 'com.github.yuzhiqiang1993:zxing:2.2.5'
+    implementation 'com.github.yuzhiqiang1993:zxing:2.2.9'
 }
 
  
+ ```
+
+ **注意**：本项目2.2.9版本引用了Zxing3.4.1，不兼容Android7.0以下、API level 24 以下的版本。若需兼容旧版本的安卓系统，请使用本项目2.2.8或更早的版本。
+ 
+ ```
+ implementation 'com.github.yuzhiqiang1993:zxing:2.2.8'
  ```
  
  2.权限
