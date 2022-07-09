@@ -38,6 +38,8 @@ public class ZxingConfig implements Serializable {
     @ColorRes
     private int frameLineColor = -1;
 
+    private int cameraId;
+
 
     /*扫描线颜色*/
     @ColorRes
@@ -121,5 +123,13 @@ public class ZxingConfig implements Serializable {
 
     public void setShowAlbum(boolean showAlbum) {
         isShowAlbum = showAlbum;
+    }
+
+    public int getCameraId() {
+        return cameraId;
+    }
+
+    public void setCameraId(int cameraId) {
+        this.cameraId = cameraId;
     }
 }

@@ -70,6 +70,9 @@ public final class CameraManager {
         this.configManager = new CameraConfigurationManager(context);
         previewCallback = new PreviewCallback(configManager);
         this.config = config;
+        if (config != null) {
+            setManualCameraId(config.getCameraId());
+        }
     }
 
 //    public static void init(Context context) {
