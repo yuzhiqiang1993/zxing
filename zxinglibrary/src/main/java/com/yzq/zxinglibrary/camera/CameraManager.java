@@ -70,6 +70,9 @@ public final class CameraManager {
         this.configManager = new CameraConfigurationManager(context);
         previewCallback = new PreviewCallback(configManager);
         this.config = config;
+        if (config != null) {
+            setManualCameraId(config.getCameraId());
+        }
     }
 
 //    public static void init(Context context) {
@@ -248,14 +251,16 @@ public final class CameraManager {
             }
 
             int screenResolutionX = screenResolution.x;
-
-            int width = (int) (screenResolutionX * 0.6);
+            int screenResolutionY = screenResolution.y;
+            // 取下最小值
+            int minWidth = Math.min(screenResolutionX, screenResolutionY);
+            int width = (int) (minWidth * 0.6);
             int height = width;
 
 
             /*水平居中  偏上显示*/
             int leftOffset = (screenResolution.x - width) / 2;
-            int topOffset = (screenResolution.y - height) / 5;
+            int topOffset = (screenResolution.y - height) / 2-80;
 
             framingRect = new Rect(leftOffset, topOffset, leftOffset + width,
                     topOffset + height);
